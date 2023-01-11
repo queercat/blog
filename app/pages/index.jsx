@@ -22,14 +22,6 @@ export default function Home() {
         <p><a href="https://github.com/queercat/autodoc-generator">autodoc</a>: a custom documentation engine written with regex and node.</p>
         <p><a href="https://github.com/queercat/queercat.github.io">portfolio site</a>: my <a href="https://queercat.github.io">portfolio</a> written with React and Three.js.</p>
       </div>
-
-      <div className="blurb">
-        <h1>#contact me</h1>
-        <p>=========</p>
-        <p>you can get ahold of me here: <email>tusek.may@gmail.com</email></p>
-      </div>
     </div>
-
-    
   )
 }

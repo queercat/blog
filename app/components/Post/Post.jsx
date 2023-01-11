@@ -1,12 +1,10 @@
 import Link from 'next/link'
 import path from 'path'
 
-export default function Post({post: {frontmatter, slug}}, key) {
+export default function Post({id, post}) {
     return (
-        <Link href={path.join('posts', slug)}>
-        <div className="post" key={key}>
-            <h2>- {frontmatter.title} <small>&lt;{frontmatter.date}&gt;</small> </h2>
+        <div className='post'>
+            <Link href={"/posts/" + post.name}><h1>- {post.meta.title} &lt;{post.meta.date}&gt;</h1></Link>
         </div>
-        </Link>
     )
 }

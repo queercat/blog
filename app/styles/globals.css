@@ -86,12 +86,54 @@ h2 {
   overflow: hidden;
 }
 
-@media screen and (max-width: 800px) {
-    .home {
-      width: 90%;
-    }
+.blog-post {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  gap: 2.5vh;
+}
 
-    .blurb {
-      margin-bottom: 10%;
-    }
+.blog-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+subtext {
+  font-family: 'VT323', monospace;
+  color: #302c34;
+  font-style: italic;
+  font-size: 1.3rem;
+}
+
+.posts {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5vh;
+}
+
+@media screen and (max-width: 850px) {
+  .home {
+    width: 90%;
+  }
+
+  .blurb {
+    margin-bottom: 10%;
+  }
+
+  .blog-post {
+    width: 90%;
+  }
+}
+
+pre {
+  padding: 1.5%;
+  background: rgb(6, 6, 6);
+  border-radius: 6px;
+
+  color: white;
+
+  margin-top: 1%;
 }
