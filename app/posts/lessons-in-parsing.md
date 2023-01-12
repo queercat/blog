@@ -4,13 +4,9 @@ date: "01-10-2023"
 blurb: "and the roadblocks along the way"
 ---
 
-# # Parsing
+# #Parsing
 =\=\=\=\=  
-a process of analyzing things to turn them into other things.  
-‎  
-given some kind of hello world we can break down the text to machine usuable components.  
+a process of analyzing things to turn them into other things.    
 ```
 $ cat file.md
 ```  
-‎  
-# # Farsing
