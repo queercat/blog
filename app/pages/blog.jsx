@@ -3,12 +3,13 @@ import path from "path"
 import matter from "gray-matter"
 
 import Post from "../components/Post/Post"
+import styles from "../components/Blog/Blog.module.css"
 
 export default function Blog({postObjects}) {    
     return (
-        <div className="posts">
+        <div className={styles.posts}>
             {postObjects.map(post => {
-                return <Post id={post.key} post={post}/>
+                return <Post key={post.key} post={post}/>
             })}
         </div>
     )
@@ -21,7 +22,7 @@ export async function getStaticProps() {
         const meta = matter(file).data;
 
         return {
-            name: name.replace('.md', ''),
+            name: name.replace('.mdx', ''),
             meta,
             key: index
         }

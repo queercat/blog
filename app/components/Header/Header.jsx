@@ -1,24 +1,30 @@
 import Link from 'next/link'
+import styles from './Header.module.css'
 
 export default function Header() {
     return (
-        <div className="header">
-            <div className='header-items'>
-                <div className='header-item'>
-                    <Link href="/"><h1>may</h1></Link>
-                    <h1>-</h1>
+        <div className={styles.header}>
+            <div className={styles.header_items}>
+                <div className={styles.header_item}>
+                    <h1><Link href="/" className={styles.header_url}>may</Link></h1>
                 </div>
 
-                <div className='header-item'>
-                    <Link href="/blog"><h1>blog</h1></Link>
-                    <h1>-</h1>
+                <div className={styles.header_item}>
+                    <h1 className={styles.header_seperator}>-</h1>
                 </div>
 
-                <div className='header-item'>
-                    <Link href="/resume"><h1>resume</h1></Link>
+                <div className={styles.header_item}>
+                <h1><Link href="/blog" className={styles.header_url}>blog</Link></h1>
+                </div>
+
+                <div className={styles.header_item}>
+                    <h1 className={styles.header_seperator}>-</h1>
+                </div>
+
+                <div className={styles.header_item}>
+                    <h1><Link href="/resume" className={styles.header_url}>resume</Link></h1>
                 </div>
             </div>
-            <p>====================</p>
         </div>
     )
 }

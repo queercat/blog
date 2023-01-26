@@ -1,0 +1,21 @@
+.resume {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.resume iframe {
+    width: 80%;
+    height: 100%;
+}
+
+@media screen and (max-width: 600px) {
+    .resume {
+        align-items: center;
+    }
+
+    .resume iframe {
+        height: 50%;
+    }
+}

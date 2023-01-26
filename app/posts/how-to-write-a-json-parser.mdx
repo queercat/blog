@@ -1,0 +1,186 @@
+---
+title: "how to write a json parser"
+date: "01-10-2023"
+blurb: "and why you probably should use someone elses"
+---
+
+# brief overview of json
+json is a rather popular file format, used for an things as simple as configs to literal databases.  
+
+here is some json file:
+
+<code>
+```code
+$ cat belongings.json
+```
+</code>
+
+<code>
+```json
+{ 
+    "occupants": {
+        "mouse lawyer": ["cheese", "small blanket", "malpractice insurance"],
+        "person": ["anxiety", "anxiety", "anxiety"]
+    }
+}
+```
+</code>
+
+we can see why it might be attractive to write in this regarding its simplicity in human legibility.
+also how its name reflects rather accurately what it is: [javascript object notation](https://www.json.org/json-en.html).
+
+now the javascript is not so relevant anymore but it's catchy.
+
+parsing
+i'm going to be annoyingly verbose for a second. there are a few different kinds of parsing even within the field of computer science. this is a parser that takes syntax of a [formal grammer](https://en.wikipedia.org/wiki/Formal_grammar) and turns it into tokens to be built into some kind of data structure. 
+
+the result of a parser can vary but is typically a structure known as a [parse tree](https://en.wikipedia.org/wiki/Parse_tree) or an [abstract syntax tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree).
+
+parsing is a frankly rather complex subject, i encourage you to read about it to understand why certain approaches are better than others. the history is also fascinating, parsing was **the** hot thing in the 80s and 90s. people took some wild approaches and did very cool things with the concept.
+
+you can find an amazing overview [here.](https://jeffreykegler.github.io/personal/timeline_v3) written by a Jeffrey Kegler who invented the marpa parsing algorithm himself.
+
+# things we need to know to actually write a json parser
+the approach i will be describing is a [recursive descent parser](https://en.wikipedia.org/wiki/Recursive_descent_parser). if you wanted you could definitely utilize a [scanerless approach.](https://en.wikipedia.org/wiki/Scannerless_parsing)
+
+the first thing we need to understand is the specifications and formal grammer of the language. we do this by looking at the somewhat scary [rfc8259.](https://www.rfc-editor.org/rfc/rfc8259)
+
+and after skimming through we see the beautiful:
+
+<code>
+```
+JSON Grammar
+
+A JSON text is a sequence of tokens.  The set of tokens includes six
+structural characters, strings, numbers, and three literal names.
+
+A JSON text is a serialized value.  Note that certain previous
+specifications of JSON constrained a JSON text to be an object or an
+array.  Implementations that generate only objects or arrays where a
+JSON text is called for will be interoperable in the sense that all
+implementations will accept these as conforming JSON texts.
+
+    JSON-text = ws value ws
+
+These are the six structural characters:
+
+    begin-array     = ws %x5B ws  ; [ left square bracket
+
+    begin-object    = ws %x7B ws  ; { left curly bracket
+
+    end-array       = ws %x5D ws  ; ] right square bracket
+
+    end-object      = ws %x7D ws  ; } right curly bracket
+
+    name-separator  = ws %x3A ws  ; : colon
+
+    value-separator = ws %x2C ws  ; , comma
+```
+</code>
+
+now this was a bit of a doozy for me reading the first time.
+
+all it really describes is the idea that JSON is made up of groupings of characters. the concept of a token within parsing is really just that,
+**groupings** of characters as defined by the **formal grammar** of the language.
+
+if we check out the valid values we see:
+
+<code>
+```
+3.  Values
+
+   A JSON value MUST be an object, array, number, or string, or one of
+   the following three literal names:
+
+      false
+      null
+      true
+
+   The literal names MUST be lowercase.  No other literal names are
+   allowed.
+
+      value = false / null / true / object / array / number / string
+
+      false = %x66.61.6c.73.65   ; false
+
+      null  = %x6e.75.6c.6c      ; null
+
+      true  = %x74.72.75.65      ; true
+```
+</code>
+
+from that we can see that the valid values for some json value are as given:
+
+<code>
+```
+[false, null, true, object, array, number, string]
+```
+</code>
+
+i'll just throw a few example mini jsons to give you an idea:
+
+## examples
+<code>
+```json
+0 # simplest json file. this is valid, just not very useful.
+
+"text" # a simple string.
+
+[0, 1, 2, 3] # hooray array!
+
+{"key": 0} # an object containing a key and a value. 
+# note that a key must always be a string.
+
+# now it's important to remember objects and arrays can hold all values so:
+{
+    "suitcase": {
+        "luggage": ["briefcase", "hamborger", {
+            "socks": {
+                "quantity": 10,
+                "color": "greer"
+            }
+        }]
+    }
+}
+# this is entirely valid.
+# the relationships in this json could be expressed as
+# object -> array [string, string, object -> array]
+```
+</code>
+
+if you want to get technical with it you should learn [EBNF](https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form)
+which is a way of writing out language grammars. it is pretty useful in removing ambiguity for what things can actually be.
+
+## making this useful
+parsing is typically done through a set of steps. you consume the input source through a process
+known as lexing or tokenizing to create tokens, those tokens get parsed into some higher level structure
+typically an AST or Parse Tree and then you do something cool with that.
+
+for our purposes the AST is all we want in whatever language we're using.
+
+we want to convert this:
+<code>
+```json
+{
+    "crayons": {
+        "red": 0,
+        "green": 1,
+        "orange": 0
+    }
+}
+```
+</code>
+into something which we can manipulate like:
+<code>
+```python
+# python
+obj = parse(above_json)
+
+num_of_crayons = obj["crayons"]
+```
+</code>
+and so we begin our little journey. ✨
+
+[the json lexer.](/posts/how-to-write-a-json-lexer)
+
+[the json parser.](/posts/how-to-actually-write-a-json-parser)
