@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <div className={styles.home}>
       <div className={styles.pfp}>
-        <img src="/imgs/pfp.png"></img>
+        <img src="blog/imgs/pfp.png"></img>
       </div>
       
       <div className={styles.blurbs}>
