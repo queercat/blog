@@ -16,6 +16,9 @@ const nextConfig = {
   reactStrictMode: true,
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
   basePath: '/blog',
+  images: {
+    unoptimized: true
+  }
 }
 
 module.exports = withMDX(nextConfig)
