@@ -30,6 +30,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Use correct directory.
+        run: cd app
       - name: Detect package manager
         id: detect-package-manager
         run: |
