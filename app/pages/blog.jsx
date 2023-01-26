@@ -6,18 +6,28 @@ import Post from "../components/Post/Post"
 import styles from "../components/Blog/Blog.module.css"
 
 export default function Blog({postObjects}) {    
-    return (
-        <div className={styles.posts}>
-            {postObjects.map(post => {
-                return <Post key={post.key} post={post}/>
-            })}
-        </div>
-    )
+    if (postObjects != undefined) {    
+        return (
+            <div className={styles.posts}>
+                {postObjects.map(post => {
+                    return <Post key={post.key} post={post}/>
+                })}
+            </div>)}
+    else {
+        return (
+            <></>
+        )
+    }
 }
 
 export async function getStaticProps() {
     const postNames = fs.readdirSync(path.join('posts'));
-    const postObjects = postNames.map((name, index) => {
+
+    let postObjects = null;
+
+    if (postNames != undefined) {
+
+    postObjects = postNames.map((name, index) => {
         const file = fs.readFileSync(path.join('posts', name), 'utf-8')
         const meta = matter(file).data;
 
@@ -27,6 +37,7 @@ export async function getStaticProps() {
             key: index
         }
     })
+    }
 
     return {
         props: {
