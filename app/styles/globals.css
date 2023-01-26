@@ -44,6 +44,13 @@ body {
 	align-items: center;
 }
 
+button {
+	font: inherit;
+	border: 1px black solid;
+	border-radius: 2px;
+	padding: .5vh;
+}
+
 @media screen and (max-width: 400px) {
 	* {
 		--h1-size: 2.4rem;

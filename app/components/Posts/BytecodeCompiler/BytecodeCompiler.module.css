@@ -1,0 +1,37 @@
+.compiler_container {
+    display: flex;
+    gap: 1vw;
+    justify-content: center;
+}
+
+.compiler_container textarea {
+    height: 20vh;
+    width: 20vw;
+}
+
+.compiler_input {
+    display: flex;
+    flex-direction: column;   
+    align-items: center;
+    gap: 1vh;
+}
+
+.compiler_output {
+    display: flex;
+    flex-direction: column;   
+    align-items: center;
+    gap: 1vh;
+}
+
+.compiler_container button {
+    width: 100%;
+}
+
+.compiler_container textarea {
+    background: black;
+    border: none;
+    border-radius: 5px;
+    resize: none;
+    color: white;
+    padding: 2vh;
+}

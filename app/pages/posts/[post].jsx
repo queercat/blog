@@ -3,14 +3,16 @@ import fs from "fs"
 
 import { MDXRemote } from "next-mdx-remote";
 import { serialize } from 'next-mdx-remote/serialize';
-import SyntaxHighlighter from 'react-syntax-highlighter';
 import gruvboxDark from "../../components/Styles/gruvbox-dark";
 import gradientDark from "../../components/Styles/gradient-dark";
 import styles from "../../components/Posts/Post.module.css";
 
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import BytecodeCompiler from '../../components/Posts/BytecodeCompiler/BytecodeCompiler';
+
 export default function Posts({source}) {    
     
-    const components = {code};
+    const components = {code, BytecodeCompiler};
 
     /* https://dev.to/michaelburrows/calculate-the-estimated-reading-time-of-an-article-using-javascript-2k9l */
     function readingTime() {
