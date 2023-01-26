@@ -6,8 +6,6 @@ export default function BytecodeCompiler(props) {
     let [cout, setCout] = useState('');
     let [out, setOut] = useState('');
 
-    let [bytecode, setBytecode]= useState('');
-
     function compile() {
         const bytess = comp.replace(/,|\n|\r|\t|#.*#/g, '').split(' ').filter(n => n);
 
