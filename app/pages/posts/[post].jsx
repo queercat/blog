@@ -9,10 +9,11 @@ import styles from "../../components/Posts/Post.module.css";
 
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import BytecodeCompiler from '../../components/Posts/BytecodeCompiler/BytecodeCompiler';
+import Aside from "../../components/Aside/Aside";
 
 export default function Posts({source}) {    
     
-    const components = {code, BytecodeCompiler};
+    const components = {code, BytecodeCompiler, Aside};
 
     /* https://dev.to/michaelburrows/calculate-the-estimated-reading-time-of-an-article-using-javascript-2k9l */
     function readingTime() {
