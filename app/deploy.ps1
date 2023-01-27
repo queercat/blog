@@ -1,3 +1,5 @@
+git pull
+
 npx next build
 npx next export
 
