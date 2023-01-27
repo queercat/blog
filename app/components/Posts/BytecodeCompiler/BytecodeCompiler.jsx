@@ -89,7 +89,7 @@ export default function BytecodeCompiler(props) {
 
     return (
     <div className={styles.compiler_container}>
-        <Script src="/blog/scripts/wabt.js"></Script>
+        <Script src="/scripts/wabt.js"></Script>
         <div className={styles.compiler_input}>
             <textarea 
             id={"compiler_input_" + props.id} 
