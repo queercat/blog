@@ -1,4 +1,3 @@
 #1/bin/sh
-goStatic -fallback "/index.html" &
-nginx
+goStatic -fallback "/index.html" 
 wait -n

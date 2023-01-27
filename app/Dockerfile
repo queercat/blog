@@ -31,16 +31,8 @@ RUN mkdir ./bin && \
 
 # setup nginx with our nginx conf
 FROM alpine:latest
-# install requirements
-RUN apk update
-RUN apk add nginx
-RUN apk add bash
-
-# set config
-COPY nginx.conf /etc/nginx/nginx.conf
 
 # setup our static host.
-
 COPY --from=builder /go/src/github.com/PierreZ/goStatic/bin/ /bin/
 COPY ./out/ /srv/http
 
