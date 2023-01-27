@@ -18,7 +18,7 @@ const nextConfig = {
   basePath: '/blog',
   images: {
     loader: 'akamai',
-    path: '/blog',
+    path: '/',
   },
 }
 
