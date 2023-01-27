@@ -4,11 +4,16 @@ import Image from "next/image"
 export default function Aside(props) {
     let source = "";
 
-    switch (props.mood) {
-        case 'default':
+    if (props.mood != undefined) {
+        if (props.mood == 'default'){
             source = "/blog/imgs/pfp.png"
-        case 'rat':
+        }
+        
+        else if (props.mood == 'rat') {
             source = "/blog/imgs/rat.png"
+        }
+    } else {
+        return new Error("you forgot to set a mood. 🤓")
     }
     
     return (

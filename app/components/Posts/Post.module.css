@@ -54,6 +54,20 @@
     margin-bottom: 2vh;
 }
 
+.blog_content aside {
+    padding: 1vw;
+    background: #c5bea0;
+    color: black;
+    border-radius: 5px;
+    display: flex;
+    gap: 1vw;
+}
+
+.aside_image img {
+    width: 200px;
+    height: 200px;
+}
+
 .blog_content nocode {
     display: block; overflow-x: auto; padding: 0.5em; background: rgb(40, 40, 40); color: rgb(235, 219, 178);
     margin-top: 2vh;

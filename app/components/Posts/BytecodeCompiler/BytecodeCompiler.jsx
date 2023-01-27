@@ -6,35 +6,84 @@ export default function BytecodeCompiler(props) {
     let [cout, setCout] = useState('');
     let [out, setOut] = useState('');
 
+    let [program, setProgram] = useState([]);
+
+    var wabt;
+
+    useEffect(() => {
+        // this is probably bad...
+        setTimeout(() => {wabt = window.wabt;}, 200);
+    });
+
     function compile() {
         const bytess = comp.replace(/,|\n|\r|\t|#.*#/g, '').split(' ').filter(n => n);
 
-        let bytes = new ArrayBuffer(bytess.length);
+        let bytes = new Uint8Array(bytess.length + props.preappend.length);
         let _bytes = "";
-
+        
         let i = 0;
+
+        if (props.kind != undefined) {
+            if (props.kind == "simple_function") {
+                    bytes = new Uint8Array(bytess.length + props.preappend.length + 5)
+            } else {
+                throw new Error("invalid kind on bytecode compiler present");
+            }
+        }
+
+        props.preappend.forEach(byte => {
+            _bytes += String(byte + ' ')
+            bytes[i++] = byte;
+        })
+
+        if (props.kind != undefined) {
+            if (props.kind == "simple_function") {
+                bytes[i++] = 0x0a
+                bytes[i++] = bytess.length + 3
+                bytes[i++] = 0x01
+                bytes[i++] = bytess.length + 1
+                bytes[i++] = 0x00
+            }
+        }
+
         bytess.forEach(byte => {
             let _byte = parseInt(byte.split('0x').reverse()[0], 16)
             _bytes += _byte + ' ';
             bytes[i++] = _byte
         });
 
-        setCout(_bytes);
+        try {
+            const wasm = wabt.readWasm(bytes, { readDebugNames: true });
+            const wat = wasm.toText({ foldExprs: false, inlineExport: false });
+
+            setProgram(bytes);
+            setCout('[' + _bytes.trim() + ']' + "\n\n" + wat);
+        } catch(e) {
+            setCout('Compilation Error 😿 \n\n' + e);
+        }
     }
 
     function run() {
-        let bytess = cout.split(' ');
-        bytess.pop();
-        let bytes = new Uint8Array(bytess.length);
+        var bytes = new Uint8Array(program.length);
 
         let i = 0;
-        bytess.forEach(byte => {
-            bytes[i++]= byte;
+        program.forEach(byte => {
+            bytes[i++] = byte;
         });
 
+        
         WebAssembly.instantiate(bytes).then((value) => {
-            setOut(value.module);
-            console.log(value);
+                setOut(value.module);
+                
+                if (props.kind != undefined) {
+                    if (props.kind == "simple_function") {
+                        setOut(value.instance.exports.main());
+                    }
+                }
+
+                console.log(value);
+        }).catch((error) => {
+            setOut("Compiler Error 🌈\n\n" + error)
         })
     }
 

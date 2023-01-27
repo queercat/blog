@@ -4,6 +4,8 @@ date: 01-26-2023
 blurb: isn't this so fucking cool?
 ---
 
+<script src="/blog/scripts/wabt.js"></script>
+
 # me + web assembly = 💖
 oh how i love WASM. it's not even funny (maybe a little, considering my hate for java).
 granted the JVM is perhaps just a little different, but bytecode this bytecode that.
@@ -22,7 +24,7 @@ the world's simplest web assembly binary can be expressed as such:
 
 how would you like to write some raw bytecode? "yes!" i hear you cry.
 
-<BytecodeCompiler id="0" hint="0x00 0x61..."/>
+<BytecodeCompiler id="0" hint="0x00 0x61..." preappend={[]}/>
 
 let's talk about how wasm works for a moment.
 
@@ -39,14 +41,6 @@ i'll write out a small portion here and see what we can get up to.
 
 ```
 opcode (param) : (what it do)
-0x21 X : set local variable @ id from next byte popping from top of the stack.
-    stack = [42]
-    0x21 0x00 : local_variables[0] = 42 --> stack = []
-
-0x20 X : gets a local i32  @ id from next byte adding to the top of the stack.
-    stack = [0]
-    0x20 0x00 : stack.append(local_variables[0]) -->stack = [0, 42]
-
 0x41 X:i32 : adds the next byte (i32) to the top of the stack.
     stack = []
     0x41 0x0a : stack.append(0x0a) --> stack = [10]
@@ -59,3 +53,27 @@ opcode (param) : (what it do)
 0x0F : jump to outermost block and return the values off the stack.
 ```
 
+how about we (you) write some wasm to return the number 42.
+
+<Aside mood="rat">
+so *technically* we need to actually write out a function declaration, and an export name,
+along with the parameters required. for now i will just auto append that to the bytecode.
+
+i will also append the magic numbers for you cutie.✨
+
+oh one more thing 👉👈 you have to write 0x0b to let wasm know you are done with your function.
+</Aside>
+
+<BytecodeCompiler id="1" 
+hint="TODO; 
+put something on the stack.
+return it"
+preappend={[
+    0x00, 0x61, 0x73, 0x6d,
+    0x01, 0x00, 0x00, 0x00,
+    0x01, 0x05, 0x01,
+    0x60, 0x00, 0x01, 0x7f,
+    0x03, 0x02, 0x01, 0x00,
+    0x07, 0x08, 0x01, 0x04, 0x6d, 0x61, 0x69, 0x6e, 0x00, 0x00,
+]}
+kind="simple_function"/>

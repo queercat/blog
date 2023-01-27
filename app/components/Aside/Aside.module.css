@@ -14,7 +14,9 @@
 
 .aside_content p {
     --aside-p: 1.3rem;
-    font-size: var(--aside-p)
+    font-size: var(--aside-p);
+
+    color: white;
 }
 
 @media screen and (max-width: 800px) {
