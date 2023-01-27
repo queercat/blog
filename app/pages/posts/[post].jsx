@@ -10,6 +10,7 @@ import styles from "../../components/Posts/Post.module.css";
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import BytecodeCompiler from '../../components/Posts/BytecodeCompiler/BytecodeCompiler';
 import Aside from "../../components/Aside/Aside";
+import { NextSeo } from "next-seo";
 
 export default function Posts({source}) {    
     
@@ -43,6 +44,7 @@ export default function Posts({source}) {
 
     return (
         <>
+            <NextSeo title={source.frontmatter.title} description={source.frontmatter.description}/>
             <div className={styles.blog_post}>
                 <div className={styles.blog_header}>
                     <div className={styles.blog_title_container}>

@@ -1,7 +1,6 @@
 import styles from "../components/Home/Home.module.css"
 import Image from "next/image"
-import pfp from "../public/imgs/pfp.img"
-
+import pfp from "../public/imgs/pfp.png"
 
 export default function Home() {
   return (
