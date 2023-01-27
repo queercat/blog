@@ -1,3 +1,6 @@
+const withPlugins = require('next-compose-plugins');
+const optimizedImages = require('next-optimized-images');
+
 const withMDX = require('@next/mdx')({
   extension: /\.mdx?$/,
   options: {
@@ -16,10 +19,8 @@ const nextConfig = {
   reactStrictMode: true,
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
   basePath: '/blog',
-  images: {
-    loader: 'akamai',
-    path: ''
-  }
 }
 
-module.exports = withMDX(nextConfig)
+withMDX(nextConfig)
+
+module.exports = optimizedImages(withMDX(nextConfig))

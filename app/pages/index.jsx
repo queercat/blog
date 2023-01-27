@@ -1,12 +1,11 @@
 import styles from "../components/Home/Home.module.css"
-import Image from "next/image"
 import pfp from "../public/imgs/pfp.png"
 
 export default function Home() {
   return (
     <div className={styles.home}>
       <div className={styles.pfp}>
-        <Image src={pfp} width={200} height={200}/>
+        <img src={pfp} width={200} height={200}/>
       </div>
       
       <div className={styles.blurbs}>
