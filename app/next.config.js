@@ -21,6 +21,4 @@ const nextConfig = {
   basePath: '/blog',
 }
 
-withMDX(nextConfig)
-
-module.exports = optimizedImages(withMDX(nextConfig))
+module.exports = withMDX(optimizedImages(nextConfig))
