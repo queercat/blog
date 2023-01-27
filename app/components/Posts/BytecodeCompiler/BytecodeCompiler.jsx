@@ -1,5 +1,6 @@
 import styles from "./BytecodeCompiler.module.css"
 import { useEffect, useState } from "react"
+import Script from 'next/script'
 
 export default function BytecodeCompiler(props) {
     let [comp, setComp] = useState('');
@@ -11,8 +12,7 @@ export default function BytecodeCompiler(props) {
     var wabt;
 
     useEffect(() => {
-        // this is probably bad...
-        setTimeout(() => {wabt = window.wabt;}, 200);
+       wabt = window.wabt
     });
 
     function compile() {
@@ -89,6 +89,7 @@ export default function BytecodeCompiler(props) {
 
     return (
     <div className={styles.compiler_container}>
+        <Script src="/blog/scripts/wabt.js"></Script>
         <div className={styles.compiler_input}>
             <textarea 
             id={"compiler_input_" + props.id} 
