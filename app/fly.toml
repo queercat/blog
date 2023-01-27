@@ -1,4 +1,4 @@
-# fly.toml file generated for may-blog on 2023-01-27T02:14:52-08:00
+# fly.toml file generated for may-blog on 2023-01-27T10:41:30-08:00
 
 app = "may-blog"
 kill_signal = "SIGINT"
@@ -12,7 +12,7 @@ processes = []
 
 [[services]]
   http_checks = []
-  internal_port = 8043
+  internal_port = 8080
   processes = ["app"]
   protocol = "tcp"
   script_checks = []

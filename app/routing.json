@@ -1,8 +1,0 @@
-{
-	"configs": [
-	  {
-		"path": "*",
-		"fileExtension": "html",
-		"headers": []
-	  }]
-} 
