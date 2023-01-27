@@ -14,7 +14,15 @@ export default function Header() {
                 </div>
 
                 <div className={styles.header_item}>
-                <h1><Link href="/blog" className={styles.header_url}>blog</Link></h1>
+                    <h1><Link href="/blog" className={styles.header_url}>blog</Link></h1>
+                </div>
+
+                <div className={styles.header_item}>
+                    <h1 className={styles.header_seperator}>-</h1>
+                </div>
+
+                <div className={styles.header_item}>
+                    <h1><Link href="/resume" className={styles.header_url}>resume</Link></h1>
                 </div>
 
                 {/* <div className={styles.header_item}>

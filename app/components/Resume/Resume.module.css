@@ -1,21 +1,19 @@
-.resume {
-    width: 100%;
-    height: 100%;
+.resume_container {
+    height: 80%;
     display: flex;
+
     justify-content: center;
+
+    transition: all 300ms;
 }
 
-.resume iframe {
+.resume_container:hover {
+    transform: translateY(-1vh);
+}
+
+.resume {
     width: 80%;
-    height: 100%;
-}
 
-@media screen and (max-width: 600px) {
-    .resume {
-        align-items: center;
-    }
-
-    .resume iframe {
-        height: 50%;
-    }
+    border: none;
+    overflow: hidden;
 }
