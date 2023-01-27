@@ -3,7 +3,7 @@ export default function Home() {
   return (
     <div className={styles.home}>
       <div className={styles.pfp}>
-        <img src={require("../public/imgs/pfp.png")} width={200} height={200}/>
+        <img src={require("/imgs/pfp.png")} width={200} height={200}/>
       </div>
       
       <div className={styles.blurbs}>

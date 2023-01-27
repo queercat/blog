@@ -5,11 +5,11 @@ export default function Aside(props) {
 
     if (props.mood != undefined) {
         if (props.mood == 'default'){
-            source = require("../../public/imgs/pfp.png")
+            source = require("/imgs/pfp.png")
         }
         
         else if (props.mood == 'rat') {
-            source = require("../../public/imgs/rat.png")
+            source = require("/imgs/rat.png")
         }
     } else {
         return new Error("you forgot to set a mood. 🤓")
