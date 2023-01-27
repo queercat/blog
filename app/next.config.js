@@ -17,7 +17,7 @@ const nextConfig = {
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
   basePath: '/blog',
   images: {
-    unoptimized: true
+    loader: 'akamai',
   }
 }
 
