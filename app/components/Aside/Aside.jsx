@@ -1,15 +1,18 @@
 import styles from "./Aside.module.css"
 
+import rat from "../../public/imgs/rat.png"
+import pfp from "../../public/imgs/pfp.png"
+
 export default function Aside(props) {
     let source = "";
 
     if (props.mood != undefined) {
         if (props.mood == 'default'){
-            source = require("/imgs/pfp.png")
+            source = rat
         }
         
         else if (props.mood == 'rat') {
-            source = require("/imgs/rat.png")
+            source = pfp
         }
     } else {
         return new Error("you forgot to set a mood. 🤓")
