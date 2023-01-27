@@ -1,6 +1,6 @@
 # blog
 a lightweight interactive blog written with Next.js. 🌈💖
 
-[link](https://queercat.github.io/blog)
+[link](https://may-blog.fly.dev)
 
-![image](https://user-images.githubusercontent.com/22136781/214992139-a1c4f610-d133-4df7-82cb-6c2e6f39cd41.png)
+![image](https://user-images.githubusercontent.com/22136781/215227185-4c205b30-0636-44c6-8fec-d02ec8274b7f.png)
