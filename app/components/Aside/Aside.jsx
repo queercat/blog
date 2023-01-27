@@ -10,11 +10,11 @@ export default function Aside(props) {
 
     if (props.mood != undefined) {
         if (props.mood == 'default'){
-            source = rat
+            source = pfp
         }
         
         else if (props.mood == 'rat') {
-            source = pfp
+            source = rat
         }
     } else {
         return new Error("you forgot to set a mood. 🤓")
