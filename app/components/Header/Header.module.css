@@ -27,4 +27,8 @@
     .header_items {
         gap: 0;
     }
+
+    .header h1 {
+        font-size: 1.8rem;
+    }
 }
