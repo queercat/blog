@@ -8,10 +8,6 @@
     align-items: center;
 }
 
-.aside_image img {
-    float: left;
-}
-
 .aside_content p {
     --aside-p: 1.3rem;
     font-size: var(--aside-p);

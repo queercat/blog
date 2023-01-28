@@ -27,7 +27,14 @@ export default function Tools({postObjects}) {
 }
 
 export async function getStaticProps() {
-    const postNames = fs.readdirSync(path.join('pages', 'tools'));
+    let allPostNames = fs.readdirSync(path.join('pages', 'tools'));
+    let postNames = [];
+
+    allPostNames.forEach((name) => {
+        if (name.includes('.jsx')) {
+            postNames.push(name);
+        }
+    });
 
     let postObjects = null;
 
