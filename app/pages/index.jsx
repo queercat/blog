@@ -9,7 +9,7 @@ export default function Home() {
     <div className={styles.home}>
       <NextSeo description="may's blog" title="may blog" />
       <div className={styles.pfp}>
-        <Image src={pfp} width={200} height={200}/>
+        <Image alt="my pony avatar" src={pfp} height={200}/>
       </div>
       
       <div className={styles.blurbs}>

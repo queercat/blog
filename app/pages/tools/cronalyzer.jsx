@@ -171,7 +171,7 @@ export default function CronCreator() {
             </div>
 
             <Aside mood="default">
-                i feel compelled to say if you use this somewhere and it breaks it's not <b>technically <i>my</i> fault.</b>
+                i feel compelled to say if you use this somewhere and it breaks its not <b>technically <i>my</i> fault.</b>
                 <br/>
             </Aside>
         </div>
