@@ -13,7 +13,7 @@ export default function Tools({postObjects}) {
                 {postObjects.map(post => {
                     return (
                         <div key={post.key} className={styles.tool_item}>
-                            <h1><Link href={"/tools/" + post.path}>{post.meta.title}</Link></h1>
+                            <h1><Link href={"/tool/" + post.path}>{post.meta.title}</Link></h1>
                             <p>{post.meta.description}</p>
                         </div>
                     )
@@ -27,7 +27,7 @@ export default function Tools({postObjects}) {
 }
 
 export async function getStaticProps() {
-    let allPostNames = fs.readdirSync(path.join('pages', 'tools'));
+    let allPostNames = fs.readdirSync(path.join('pages', 'tool'));
     let postNames = [];
 
     allPostNames.forEach((name) => {
@@ -41,7 +41,7 @@ export async function getStaticProps() {
     if (postNames != undefined) {
 
     postObjects = postNames.map((name, index) => {
-        const file = fs.readFileSync(path.join('pages', 'tools', name), 'utf-8', 'r')
+        const file = fs.readFileSync(path.join('pages', 'tool', name), 'utf-8', 'r')
         const meta = (JSON.parse(file.split('\n')[0].replace(/\/\*|\*\//g, "")));
 
         return {
