@@ -1,11 +1,13 @@
 import styles from "../components/Home/Home.module.css"
 import pfp from "../public/imgs/pfp.png"
 import Image from 'next/image'
+import { NextSeo } from "next-seo"
 
 
 export default function Home() {
   return (
     <div className={styles.home}>
+      <NextSeo description="may's blog" title="may blog" />
       <div className={styles.pfp}>
         <Image src={pfp} width={200} height={200}/>
       </div>
