@@ -6,7 +6,7 @@ export default function Resume() {
     return (
         <div className={styles.resume_container}>
             <NextSeo title="may resume" description="may tusek resume" />
-            <iframe className={styles.resume} src="/blog/pdfs/resume_2022.pdf"/>
+            <iframe className={styles.resume} src="/blog/pdfs/resume_may_tusek_2023.pdf"/>
         </div>
     )
 }
