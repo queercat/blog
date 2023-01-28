@@ -14,7 +14,7 @@ export default function Header() {
                 </div>
 
                 <div className={styles.header_item}>
-                    <h1><Link href="/blog" className={styles.header_url}>blog</Link></h1>
+                    <h1><Link href="/posts" className={styles.header_url}>posts</Link></h1>
                 </div>
 
                 <div className={styles.header_item}>

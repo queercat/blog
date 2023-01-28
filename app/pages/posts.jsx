@@ -4,11 +4,13 @@ import matter from "gray-matter"
 
 import Post from "../components/Post/Post"
 import styles from "../components/Blog/Blog.module.css"
+import { NextSeo } from "next-seo"
 
 export default function Blog({postObjects}) {    
     if (postObjects != undefined) {    
         return (
             <div className={styles.posts}>
+                <NextSeo description="may's blog posts" title="blog posts"></NextSeo>
                 {postObjects.map(post => {
                     return <Post key={post.key} post={post}/>
                 })}
