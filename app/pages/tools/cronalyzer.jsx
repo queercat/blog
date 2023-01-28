@@ -1,4 +1,4 @@
-/*{"title": "cronalyzer", "description": "create cron schedules with english and read them too!"}*/
+/*{"title": "cronalyzer", "description": "create cron schedules with english!"}*/
 
 import styles from "./cronalyzer.module.css";
 
