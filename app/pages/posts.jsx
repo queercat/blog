@@ -7,6 +7,22 @@ import styles from "../components/Blog/Blog.module.css"
 import { NextSeo } from "next-seo"
 
 export default function Blog({postObjects}) {    
+    postObjects.map(post => {
+        let dateArray = post.meta.date.split('-');
+        const month = dateArray[0];
+        const day = dateArray[1];
+        const year = dateArray[2];
+        
+        const date = new Date(year, month, day);
+        post.unixTime = date.getTime();
+    });
+
+    let ps = postObjects;
+
+    postObjects.sort((a, b) => {
+        return b.unixTime - a.unixTime;
+    });
+   
     if (postObjects != undefined) {    
         return (
             <div className={styles.posts}>
