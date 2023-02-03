@@ -4,7 +4,7 @@ import styles from '../Blog/Blog.module.css'
 
 export default function Post({id, post}) {
     function click() {
-        location.href += "/posts/" + post.name;
+        location.href = "/posts/" + post.name;
     }
 
     return (
