@@ -20,8 +20,8 @@
         --aside-p: .8rem;
     }
 
-    .aside_image img {
-        width: 100px;
-        height: 100px;
+    .aside_image img{
+        max-width: 100px;
+        height: auto;
     }
 }
