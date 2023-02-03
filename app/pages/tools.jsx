@@ -1,29 +1,20 @@
 import fs from "fs"
 import path from "path"
 
-import styles from "../components/Tools/Tools.module.css"
-import Link from "next/link"
+import styles from "../components/Blog/Blog.module.css"
+import Tool from "../components/Tools/Tool"
+
 import { NextSeo } from "next-seo"
 
 export default function Tools({postObjects}) {        
-    if (postObjects != undefined) {    
-        return (
-            <div className={styles.tools_container}>
-                <NextSeo description="may's tools" title="tools"></NextSeo>
-                {postObjects.map(post => {
-                    return (
-                        <div key={post.key} className={styles.tool_item}>
-                            <h1><Link href={"/tool/" + post.path}>{post.meta.title}</Link></h1>
-                            <p>{post.meta.description}</p>
-                        </div>
-                    )
-                })}
-            </div>)}
-    else {
-        return (
-            <></>
-        )
-    }
+    return (
+        <div className={styles.posts}>
+            <NextSeo description="may's tools" title="tools"></NextSeo>
+            {postObjects.map(post => {
+                return <Tool key={postObjects.key} post={post}/>
+            })}
+        </div>
+    )
 }
 
 export async function getStaticProps() {
