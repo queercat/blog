@@ -1,20 +1,503 @@
 ---
-title: "on magic arenas deck limits and the notions of 7 billion files"
+title: "magic (arena) and the notion of 8 billion files"
 date: "02-03-2023"
-blurb: "and how i would handle them" 
+blurb: "text is more expensive than you think" 
 description: "how to store billions of files for fun and (more) profit?"
 ---
 
 # some perspective
-[wizards of the coast](https://articles.starcitygames.com/magic-the-gathering/magic-the-gathering-becomes-hasbros-first-1-billion-brand/) a **billion** (with a b) dollar brand creates a
-pretty interesting game involving cards and magic. a game of which i have enjoyed despite the insane f2p economy.
+[wizards of the coast](https://articles.starcitygames.com/magic-the-gathering/magic-the-gathering-becomes-hasbros-first-1-billion-brand/) a **billion** (with a b) dollar company creates a
+pretty interesting game involving cardboard and magic. a game which i have enjoyed despite the insane f2p economy.
 
-a billion dollars is beyond an absurb amount of money. a billion of anything is not something human beings can remotely visualize. if you wanted to try you could check out
-[printing money](https://neal.fun/printing-money/) or attempt to [spend 1 billion of bill gates insane 100 billion dollars](https://neal.fun/spend/)
+a billion dollars is beyond an absurb amount of money. a billion of anything is not something human beings can remotely visualize. if you wanted to try though you could check out
+[printing money](https://neal.fun/printing-money/) or attempt to [spend 1 billion of bill gates insane 100 billion fortune](https://neal.fun/spend/) created the utterly amazing [Neal Agarwal.](https://twitter.com/nealagarwal)
 
-how about we try visualizing something easier.
+<Aside mood='rat'>
+    *hint*:<br/>try 250 million big macs currently priced at 3.99 USD...
+</Aside>
 
 # just how many people play this game?
-looking through a few sources we can gather that there is something like [7 million average users a month](https://activeplayer.io/magic-the-gathering-arena/).
+looking through a few sources we can gather *(ha)* that there is something like [7 million average users a month](https://activeplayer.io/magic-the-gathering-arena/).
+
+thinking about that for a second, 7 million users is just how many people that play the game a month. we can realistically safely assume
+there is like 20 - 40 million accounts. 
+
+(source: ¯\\_(ツ)_/¯)
+
+# napkin maths
+in the same way that you don't design a bridge to hold  *'like about that much...'* you generally want to overestimate by quite a bit.
+
+depending on the needs of the application, the context, the phases of the moon, you want to give different kinds of margins.
+
+for example, a machine that burns cookies 1% of the time is perhaps a little less severe than a machine that explodes kittens at the same rate.
+
+so a healthy overestimate of 7 million monthly users to a total of 80 million users is probably a safe margin for the scale currently being operated at when we take in yearly growth.
+
+# just how big is that?
+i caught a <s>fish</s> 80 million users about thiiiiiiiiiiiiis big.
+
+the max profile picture size for twitter is 2mb. so if we added the ability for all users to have a custom image, just how much data is that?
+
+oh i don't know...
+
+**160 terabytes**
+
+[aws tells us](https://aws.amazon.com/s3/pricing/) that a gb is worth about 0.021 USD or about 2 cents and 2 [<s>british</s> american ha'penny](https://en.wikipedia.org/wiki/Half_penny)
 
 
+`160tb is 160gb * 1000gb (1000gb is 21 USD.)` 
+`21 USD per 1000gb for 160tb = 160 * 21 USD is => 3360 USD per month or 40,320 USD a year`
+
+so for nearly double the median salary of a [single mom in ohio](https://statusofwomendata.org/explore-the-data/poverty-opportunity/additional-state-data/median-household-income-by-household-type/) our
+users can have profile pictures.
+
+and that is just 2 megabytes, 2 * 10^6 (2,000,000) bytes.
+
+<LineChart data = {
+    {
+        labels: [...Array(12).keys()].map((val) => 'year ' + (val + 1)),
+        datasets: [
+            {
+                label: 'total cost year-to-year for 160tb in USD',
+                data: [...Array(12).keys()].map((val) => (val + 1) * 21 * 160 * 12),
+                borderColor: 'rgb(232, 165, 114)',
+                backgroundColor: 'rgba(232, 165, 114)',
+            }
+        ]
+    }
+}/>
+
+we now have the needed context we can get to work. in other words we can finally get to:
+
+<highlight id="billion">
+# how to handle 8 billion text files
+</highlight>
+to what do we owe a text file? and to what does a text file owe to us?
+well to start they're usually very small. like teeny tiny.
+
+here is my friend [Xe\'s](https://xeiaso.net/) seemingly [favorite letter](https://github.com/Xe/hlang), h.
+`$ echo h > h.txt`
+`ls -l`
+`... 2 h.txt `
+
+2 bytes (on my text encoding)! wow that is small.
+
+<Aside mood='default'>
+    the amount of space any given character takes up depends on the encoding scheme present.
+    [utf-8](https://en.wikipedia.org/wiki/UTF-8) for example encodes bytes variably from 1-4 bytes per
+    character. 
+
+    this is why the ascii alphabet can be represented with one byte (8 bits) but more complex characters requires multiple bytes.
+</Aside>
+
+now a magic the gathering deck file looks like this when exported from some tool like mtggoldfish
+
+```
+3 Birds of Paradise [MB1]
+3 Blooming Marsh [KLR]
+1 Boseiju, Who Endures <extended> [NEO] (F)
+4 Chord of Calling <magic 30> [DMU]
+1 Dryad Arbor [V12]
+4 Eldritch Evolution [MB1]
+1 Essence Warden [MB1]
+1 Forest <254> [THB]
+2 Geralf's Messenger [DKA] (F)
+4 Grist, the Hunger Tide
+4 Ignoble Hierarch
+1 Misty Rainforest [SLU]
+1 Nurturing Peatland [MH1] (F)
+3 Overgrown Tomb <planeswalker stamp> [GRN] (F)
+1 Snow-Covered Forest <285> [KHM] (F)
+4 Strangleroot Geist [DKA] (F)
+1 Swamp <252> [THB]
+2 Twilight Mire [A25] (F)
+1 Urborg, Tomb of Yawgmoth [PRM-UMA]
+4 Verdant Catacombs [SLU]
+4 Wall of Roots <magic 30> [DMU]
+1 Yavimaya, Cradle of Growth
+4 Yawgmoth, Thran Physician [MH1] (F)
+4 Young Wolf [DKA] (F)
+1 Zulaport Cutthroat [C20]
+
+1 Crime/Punishment [DIS] (F)
+2 Endurance
+3 Force of Vigor [MH1] (F)
+1 Kataki, War's Wage [MD1]
+1 Magus of the Moon [IMA]
+2 Necromentia <prerelease> [M21] (F)
+1 Outland Liberator <showcase> [MID] (F)
+1 Plague Engineer [MH1] (F)
+2 Thoughtseize [AKR]
+1 Thrun, the Last Troll [MB1]
+``` 
+
+this file is only 500 times the size of the h file at a whopping...
+1006 bytes.
+
+this is a pretty good case file actually, most of the cards are 4 ofs (the max in a deck).
+you could have something much worse as there are multiple formats that MTGA supports.
+
+take for example this 100 card singleton deck.
+
+```
+1 Akroma's Will <418038> [PRM]
+1 Arcane Denial [A25]
+1 Arcane Signet [DMC]
+1 Arid Mesa [MH2]
+1 Ash Barrens <retro> [BRC]
+1 Assassin's Trophy [GRN]
+1 Badlands [VMA]
+1 Bayou [VMA]
+1 Beast Within [NPH]
+1 Birds of Paradise <208> [PRM]
+1 Bloodstained Mire [KTK]
+1 Boreas Charger [PZ2]
+1 Brainstorm [VMA]
+1 Cavern of Souls [AVR]
+1 Chromatic Lantern [RTR]
+1 City of Brass [8ED]
+1 Coat of Arms [8ED]
+1 Command Tower [PZ1]
+1 Crested Sunmare [HOU]
+1 Cultivate <Black is Magic> [SLD]
+1 Curse of Opulence [PZ2]
+1 Demonic Tutor [VMA]
+1 Distant Melody [MOR]
+1 Dryad Arbor [FUT]
+1 Dryad of the Ilysian Grove [THB]
+1 Elesh Norn, Grand Cenobite [MM2]
+1 Emiel the Blessed [2X2]
+1 Exotic Orchard <retro> [BRC]
+1 Fact or Fiction <retro> [DMR]
+1 Farseek [M13]
+1 Felidar Retreat [ZNR]
+1 Fellwar Stone <retro> [BRC]
+1 Flooded Strand [KTK]
+1 Forbidden Orchard [CHK]
+1 Forest <254> [THB]
+1 Gemstone Mine [TSB]
+1 Generous Gift [MH1]
+1 Genesis Wave [SOM]
+1 Good-Fortune Unicorn [MH1]
+1 Grand Coliseum [VMA]
+1 Green Sun's Zenith [MBS]
+1 Harrow <198> [PRM] (F)
+1 Helm of the Host <retro> [BRR]
+1 Heraldic Banner [ELD]
+1 Heroic Intervention [AER]
+1 Imperial Seal <20> [PRM]
+1 Island <251> [THB]
+1 Keeper of the Accord [CMR]
+1 Kodama's Reach [MMA] (F)
+1 Loyal Unicorn [PZ2]
+1 Mana Confluence [JOU]
+1 Mana Crypt [EMA]
+1 Mana Vault [VMA]
+1 Marsh Flats [ZEN]
+1 Mirari's Wake [MH2]
+1 Mirror Entity [LRW]
+1 Misty Rainforest [ZEN]
+1 Mountain <253> [THB]
+1 Nightmare Moon [PTG] (F)
+1 Opaline Unicorn [THS]
+1 Path to Exile <160397> [PRM]
+1 Plains <250> [THB]
+1 Plateau [VMA]
+1 Plated Pegasus [TSP] (F)
+1 Polluted Delta [KTK]
+1 Ponder <Black is Magic> [SLD]
+1 Pongify [2XM]
+1 Preordain [M11]
+1 Princess Twilight Sparkle [PTG] (F)
+1 Rapid Hybridization [GTC]
+1 Rarity [PTG] (F)
+1 Reflecting Pool [SHM]
+1 Relentless Assault [10E]
+1 Return of the Wildspeaker [ELD]
+1 Rhythm of the Wild [RNA]
+1 Savannah [VMA]
+1 Scalding Tarn [MH2]
+1 Scrubland [VMA]
+1 Shard Convergence [CON]
+1 Skullclamp [DST]
+1 Smothering Tithe [RNA]
+1 Sol Ring <Black is Magic> [SLD]
+1 Survival of the Fittest [VMA]
+1 Swamp <252> [THB]
+1 Swords to Plowshares <retro> [BRC]
+1 Taiga [VMA]
+1 The Great Henge [ELD]
+1 The Immortal Sun [RIX]
+1 Tropical Island [VMA]
+1 Tundra [VMA] (F)
+1 Underground Sea [VMA]
+1 Verdant Catacombs [ZEN]
+1 Vivien's Arkbow [WAR]
+1 Volcanic Island [VMA]
+1 Vryn Wingmare [M21] (F)
+1 Wayfarer's Bauble [MM2] (F)
+1 Windswept Heath [KTK]
+1 Wooded Foothills [KTK]
+1 Workhorse [EX]
+1 Worldly Tutor [MI]
+```
+
+now this file is 2446 bytes! although this is probably the average worst case.
+
+it *could* be worse with custom arts for each deck file. plus building a singleton deck around cards with long names
+such as the oh so fun to say asmoranomardicadaistinaculdicar! (as-more-an-uh-mar-dih-cuh-dye-stin-uh-cuhl-dih-car).
+
+<asmor>
+![the card itself](https://cards.scryfall.io/png/front/d/9/d99a9a7d-d9ca-4c11-80ab-e39d5943a315.png?1632831210)
+</asmor>
+see [this pronounciation guide](https://www.youtube.com/watch?v=XYbXBIUCtHM)
+
+the deck limit is currently ~100, and there is 7 million users, but we're overestimating and assuming something like 80 million, with the worst case scenario being 2500 bytes (2.5kb)
+doing some math we can see that takes up...
+
+`100 * 2.5kb = 250kb (.25mb)`
+`(.25mb) * 80 million = 20 million megabytes (20,000,000mb or 20,000gb or 20tb)`
+
+using our handy dandy graph from earlier we do some computations and...
+
+<LineChart data = {
+    {
+        labels: [...Array(12).keys()].map((val) => 'year ' + (val + 1)),
+        datasets: [
+            {
+                label: 'total cost year-to-year for deck storage (@ 20tb~) in USD',
+                data: [...Array(12).keys()].map((val) => (val + 1) * 21 * 20 * 12),
+                borderColor: 'rgb(232, 165, 114)',
+                backgroundColor: 'rgba(232, 165, 114)',
+            }
+        ]
+    }
+}/>
+
+over some 12 year period that only costs us 60,000 USD.
+
+that's not too bad but i think we can do **much** better.
+
+firstly we need to understand this problem is a little more complex than just deck files.
+
+magic arena being the f2p economy is incentivizes players to spend money by having alternative arts for each card.
+there are a few ways to handle this.
+
+# an approach
+what if we just compressed the text through an encoding scheme?
+
+turning a card such as
+`1 Swords to Plowshares <retro> [BRC]`
+to
+`brc-stp r `
+
+we partially encode some data into the file format where a lack of a number is simply just 1.
+
+acknowledging same set name collisions we could embed an index, or pregenerate a look up table, or just keep
+adding letters until it is unique. an example of this happening would be in 10E 
+where both Peek and Persuasion are cards in the set.
+
+example solution output
+`1 Peek [10E]`
+`1 Persuasion [10E]`
+to
+`10E-p0 or 10E-p`
+`10E-p1 or 10E-pe`
+
+both have benefits and drawbacks but variadic numeric indexing is likely the most efficient approach
+with this encoding scheme to solve collisions.
+
+this adds often only 2 byte overheads to each collision so it is negligible in my protoyping, 
+(to be read as: i'm not implementing this for now but acknowledging it)
+
+just how much does this encoding reduce our sizes?
+
+<ReducerVisualizer
+
+encoding="shortname"
+
+input = "
+1 Akroma's Will <418038> [PRM]
+1 Arcane Denial [A25]
+1 Arcane Signet [DMC]
+1 Arid Mesa [MH2]
+1 Ash Barrens <retro> [BRC]
+1 Assassin's Trophy [GRN]
+1 Badlands [VMA]
+1 Bayou [VMA]
+1 Beast Within [NPH]
+1 Birds of Paradise <208> [PRM]
+1 Bloodstained Mire [KTK]
+1 Boreas Charger [PZ2]
+1 Brainstorm [VMA]
+1 Cavern of Souls [AVR]
+1 Chromatic Lantern [RTR]
+1 City of Brass [8ED]
+1 Coat of Arms [8ED]
+1 Command Tower [PZ1]
+1 Crested Sunmare [HOU]
+1 Cultivate <Black is Magic> [SLD]
+1 Curse of Opulence [PZ2]
+1 Demonic Tutor [VMA]
+1 Distant Melody [MOR]
+1 Dryad Arbor [FUT]
+1 Dryad of the Ilysian Grove [THB]
+1 Elesh Norn, Grand Cenobite [MM2]
+1 Emiel the Blessed [2X2]
+1 Exotic Orchard <retro> [BRC]
+1 Fact or Fiction <retro> [DMR]
+1 Farseek [M13]
+1 Felidar Retreat [ZNR]
+1 Fellwar Stone <retro> [BRC]
+1 Flooded Strand [KTK]
+1 Forbidden Orchard [CHK]
+1 Forest <254> [THB]
+1 Gemstone Mine [TSB]
+1 Generous Gift [MH1]
+1 Genesis Wave [SOM]
+1 Good-Fortune Unicorn [MH1]
+1 Grand Coliseum [VMA]
+1 Green Sun's Zenith [MBS]
+1 Harrow <198> [PRM] (F)
+1 Helm of the Host <retro> [BRR]
+1 Heraldic Banner [ELD]
+1 Heroic Intervention [AER]
+1 Imperial Seal <20> [PRM]
+1 Island <251> [THB]
+1 Keeper of the Accord [CMR]
+1 Kodama's Reach [MMA] (F)
+1 Loyal Unicorn [PZ2]
+1 Mana Confluence [JOU]
+1 Mana Crypt [EMA]
+1 Mana Vault [VMA]
+1 Marsh Flats [ZEN]
+1 Mirari's Wake [MH2]
+1 Mirror Entity [LRW]
+1 Misty Rainforest [ZEN]
+1 Mountain <253> [THB]
+1 Nightmare Moon [PTG] (F)
+1 Opaline Unicorn [THS]
+1 Path to Exile <160397> [PRM]
+1 Plains <250> [THB]
+1 Plateau [VMA]
+1 Plated Pegasus [TSP] (F)
+1 Polluted Delta [KTK]
+1 Ponder <Black is Magic> [SLD]
+1 Pongify [2XM]
+1 Preordain [M11]
+1 Princess Twilight Sparkle [PTG] (F)
+1 Rapid Hybridization [GTC]
+1 Rarity [PTG] (F)
+1 Reflecting Pool [SHM]
+1 Relentless Assault [10E]
+1 Return of the Wildspeaker [ELD]
+1 Rhythm of the Wild [RNA]
+1 Savannah [VMA]
+1 Scalding Tarn [MH2]
+1 Scrubland [VMA]
+1 Shard Convergence [CON]
+1 Skullclamp [DST]
+1 Smothering Tithe [RNA]
+1 Sol Ring <Black is Magic> [SLD]
+1 Survival of the Fittest [VMA]
+1 Swamp <252> [THB]
+1 Swords to Plowshares <retro> [BRC]
+1 Taiga [VMA]
+1 The Great Henge [ELD]
+1 The Immortal Sun [RIX]
+1 Tropical Island [VMA]
+1 Tundra [VMA] (F)
+1 Underground Sea [VMA]
+1 Verdant Catacombs [ZEN]
+1 Vivien's Arkbow [WAR]
+1 Volcanic Island [VMA]
+1 Vryn Wingmare [M21] (F)
+1 Wayfarer's Bauble [MM2] (F)
+1 Windswept Heath [KTK]
+1 Wooded Foothills [KTK]
+1 Workhorse [EX]
+1 Worldly Tutor [MI]
+"
+
+/>
+
+in the best worst case scenario we can reduce it substantially. but what about something more average?
+
+<ReducerVisualizer
+
+encoding="shortname"
+
+input = "
+3 Birds of Paradise [MB1]
+3 Blooming Marsh [KLR]
+1 Boseiju, Who Endures <extended> [NEO] (F)
+4 Chord of Calling <magic 30> [DMU]
+1 Dryad Arbor [V12]
+4 Eldritch Evolution [MB1]
+1 Essence Warden [MB1]
+1 Forest <254> [THB]
+2 Geralf's Messenger [DKA] (F)
+4 Grist, the Hunger Tide
+4 Ignoble Hierarch
+1 Misty Rainforest [SLU]
+1 Nurturing Peatland [MH1] (F)
+3 Overgrown Tomb <planeswalker stamp> [GRN] (F)
+1 Snow-Covered Forest <285> [KHM] (F)
+4 Strangleroot Geist [DKA] (F)
+1 Swamp <252> [THB]
+2 Twilight Mire [A25] (F)
+1 Urborg, Tomb of Yawgmoth [PRM-UMA]
+4 Verdant Catacombs [SLU]
+4 Wall of Roots <magic 30> [DMU]
+1 Yavimaya, Cradle of Growth
+4 Yawgmoth, Thran Physician [MH1] (F)
+4 Young Wolf [DKA] (F)
+1 Zulaport Cutthroat [C20]
+
+1 Crime/Punishment [DIS] (F)
+2 Endurance
+3 Force of Vigor [MH1] (F)
+1 Kataki, War's Wage [MD1]
+1 Magus of the Moon [IMA]
+2 Necromentia <prerelease> [M21] (F)
+1 Outland Liberator <showcase> [MID] (F)
+1 Plague Engineer [MH1] (F)
+2 Thoughtseize [AKR]
+1 Thrun, the Last Troll [MB1]
+"
+
+/>
+
+even in this more realistic example we get still get a substantial reduction of nearly 4 - 5 times.
+
+applying this to our data model:
+
+`100 * 862b = 86.2kb (.086mb)`
+`(.086mb) * 80 million = 6.88 million megabytes (6,880,000mb or 6,880gb or 6.88tb)`
+
+<LineChart data = {
+    {
+        labels: [...Array(12).keys()].map((val) => 'year ' + (val + 1)),
+        datasets: [
+            
+            {
+                label: 'total cost year-to-year for deck storage (@ 6tb~) [reduced w/ method 1] in USD',
+                data: [...Array(12).keys()].map((val) => (val + 1) * 21 * 6.88 * 12),
+                //
+                borderColor: '#9dfa98',
+                backgroundColor: '#9dfa98',
+            },
+
+            {
+                label: 'total cost year-to-year for deck storage (@ 20tb~) [non-reduced] in USD',
+                data: [...Array(12).keys()].map((val) => (val + 1) * 21 * 20 * 12),
+                borderColor: 'rgb(245, 93, 93)',
+                backgroundColor: 'rgba(245, 93, 93)',
+                borderColor: '#fa989b',
+                backgroundColor: '#fa989b',
+            },
+        ]
+    }
+}/>
+
+some validation will need to be done and maintenance on the compendium of card names which adds to cost but that is not within the scope of this solution.

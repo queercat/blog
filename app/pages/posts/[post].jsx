@@ -10,11 +10,16 @@ import styles from "../../components/Posts/Post.module.css";
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import BytecodeCompiler from '../../components/Posts/BytecodeCompiler/BytecodeCompiler';
 import Aside from "../../components/Aside/Aside";
+import LineChart from "../../components/Posts/Charts/LineChart";
+import ReducerVisualizer from "../../components/Posts/ReducerVisualizer/ReducerVisualizer";
+
+
 import { NextSeo } from "next-seo";
+
 
 export default function Posts({source}) {    
     
-    const components = {code, BytecodeCompiler, Aside};
+    const components = {code, BytecodeCompiler, Aside, LineChart, ReducerVisualizer};
 
     /* https://dev.to/michaelburrows/calculate-the-estimated-reading-time-of-an-article-using-javascript-2k9l */
     function readingTime() {
