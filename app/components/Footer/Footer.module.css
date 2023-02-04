@@ -1,7 +1,7 @@
 .footer {
     display: flex;
     margin-top: 2vh;
-    margin-bottom: 2vh;
+    padding-bottom: 2vh;
 
     flex-direction: column-reverse;
     align-items: center;
