@@ -1,4 +1,4 @@
-const Blog = require('blob');
+const Blob = require('blob');
 
 import styles from "./ReducerVisualizer.module.css";
 import { useState } from "react";
