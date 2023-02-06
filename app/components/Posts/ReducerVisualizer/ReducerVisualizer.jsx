@@ -1,4 +1,5 @@
 import styles from "./ReducerVisualizer.module.css";
+
 import { useState } from "react";
 import { useEffect } from "react";
 
@@ -6,7 +7,7 @@ export default function ReducerVisualizer(props) {
     const [input, setInput] = useState(props.input.split('\n').join('').split('\r').filter(value => value));
     const [reduced, setReduced] = useState(false);
 
-    const [oldSize, setOldSize] = useState('old size: ' + (props.input.length)+ ' bytes');
+    const [oldSize, setOldSize] = useState('old size: ' + new Blob([props.input]).size + ' bytes');
     const [newSize, setNewSize] = useState('');
 
     function reduce() {
@@ -58,7 +59,7 @@ export default function ReducerVisualizer(props) {
                     copy[index] = value;
                     setInput(() => [...copy]);
                     if (index >= out.length - 1){
-                        setNewSize('new size: ' + out.join('\n').length + ' bytes')
+                        setNewSize('new size: ' + new Blob([out.join('\n')]).size + ' bytes')
                     }
                 }, index * 25);
             })
