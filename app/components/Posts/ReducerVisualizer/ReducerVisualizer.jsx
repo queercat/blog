@@ -1,5 +1,6 @@
-import styles from "./ReducerVisualizer.module.css";
+const Blog = require('blob');
 
+import styles from "./ReducerVisualizer.module.css";
 import { useState } from "react";
 import { useEffect } from "react";
 
