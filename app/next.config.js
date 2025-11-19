@@ -1,4 +1,4 @@
-const withMDX = require('@next/mdx')({
+const withMDX = require("@next/mdx")({
   extension: /\.mdx?$/,
   options: {
     // If you use remark-gfm, you'll need to use next.config.mjs
@@ -9,16 +9,16 @@ const withMDX = require('@next/mdx')({
     // If you use `MDXProvider`, uncomment the following line.
     // providerImportSource: "@mdx-js/react",
   },
-})
+});
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
-  basePath: '/blog',
+  pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
+  basePath: "/blog",
   images: {
-    unoptimized: true
+    unoptimized: true,
   },
-}
+};
 
-module.exports = withMDX(nextConfig)
+module.exports = withMDX(nextConfig);

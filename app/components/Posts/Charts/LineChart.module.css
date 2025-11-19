@@ -1,11 +1,11 @@
 .chart {
-    background-color: rgb(36, 35, 35);
-    padding: 2vw;
+  background-color: rgb(36, 35, 35);
+  padding: 2vw;
 
-    display: flex;
-    justify-content: center;
-    border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  border-radius: 5px;
 
-    margin-top: 2vh;
-    margin-bottom: 2vh;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
 }

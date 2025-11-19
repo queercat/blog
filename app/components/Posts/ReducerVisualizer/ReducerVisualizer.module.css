@@ -1,32 +1,32 @@
 .reducer_container {
-    padding: 2vw;
-    background-color: rgb(38, 36, 36);
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;;
+  padding: 2vw;
+  background-color: rgb(38, 36, 36);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    margin-top: 2vh;
-    margin-bottom: 2vh;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
 }
 
 .reducer_container button {
-    margin-top: 2vh;
-    background-color: rgb(243, 167, 141);
+  margin-top: 2vh;
+  background-color: rgb(243, 167, 141);
 }
 
 .reducer_view {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .reducer_item {
-    flex-basis: 24%;
-    display: flex;
-    justify-content: center;
+  flex-basis: 24%;
+  display: flex;
+  justify-content: center;
 }
 
 .sizes {
-    margin-top: 2vh;
+  margin-top: 2vh;
 }

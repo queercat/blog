@@ -1,29 +1,29 @@
 .footer {
-    display: flex;
-    margin-top: 2vh;
-    padding-bottom: 2vh;
+  display: flex;
+  margin-top: 2vh;
+  padding-bottom: 2vh;
 
-    flex-direction: column-reverse;
-    align-items: center;
+  flex-direction: column-reverse;
+  align-items: center;
 }
 
 .footer_items {
-    display: flex;
-    gap: 2vw;
+  display: flex;
+  gap: 2vw;
 }
 
 .footer a {
-    color: gray;
+  color: gray;
 }
 
 @media screen and (max-width: 1000px) {
-    .footer p {
-        font-size: .8rem;
-    }
+  .footer p {
+    font-size: 0.8rem;
+  }
 }
 
 @media screen and (max-width: 800px) {
-    .footer p {
-        font-size: .5rem;
-    }
+  .footer p {
+    font-size: 0.5rem;
+  }
 }

@@ -5,8 +5,8 @@ blurb: isn't this so fucking cool?
 description: "lets write raw web assembly bytecode!"
 ---
 
-
 # me + web assembly = 💖
+
 oh how i love WASM. it's not even funny (maybe a little, considering my hate for java).
 granted the JVM is perhaps just a little different, but bytecode this bytecode that.
 
@@ -15,16 +15,13 @@ i want to make you agree with me through my powers of unadulterated rhetoric. an
 the world's simplest web assembly binary can be expressed as such:
 
 <code>
-```
-# you can copy and paste this! #
-0x00 0x61 0x73 0x6d # magic 0 A S M #
-0x01 0x00 0x00 0x00 # version 1 0 0 0 #
-```
+  ``` # you can copy and paste this! # 0x00 0x61 0x73 0x6d # magic 0 A S M #
+  0x01 0x00 0x00 0x00 # version 1 0 0 0 # ```
 </code>
 
 how would you like to write some raw bytecode? "yes!" i hear you cry.
 
-<BytecodeCompiler id="0" hint="0x00 0x61..." preappend={[]}/>
+<BytecodeCompiler id="0" hint="0x00 0x61..." preappend={[]} />
 
 let's talk about how wasm works for a moment.
 
@@ -35,7 +32,7 @@ on the stack itself.
 there are only four data types in wasm, i32, i64, f32, f64.
 the list of instructions available is actually very simple.
 
-[this table](https://pengowray.github.io/wasm-ops/) by Pengo Wray is utterly *fantastic*.
+[this table](https://pengowray.github.io/wasm-ops/) by Pengo Wray is utterly _fantastic_.
 
 i'll write out a small portion here and see what we can get up to.
 
@@ -46,7 +43,7 @@ opcode (param) : (what it do)
     0x41 0x0a : stack.append(0x0a) --> stack = [10]
     # caveat on this, if the number is over some size you have to use leb128
     # you do not have to worry about this as i will provide a wrapper for it
-    # but should you write your own WASM things, it will be necessary to resolve this. 
+    # but should you write your own WASM things, it will be necessary to resolve this.
 0x6A : pops two i32s from the stack and appends the sum of them to the stack.
     stack = [5:i32, 6:i32]
     0x6A : stack.append(stack.pop() + stack.pop()) --> stack = [11:i32]
@@ -62,18 +59,18 @@ along with the parameters required. for now i will just auto append that to the 
 i will also append the magic numbers for you cutie.✨
 
 oh one more thing 👉👈 you have to write 0x0b to let wasm know you are done with your function.
+
 </Aside>
 
-<BytecodeCompiler id="1" 
-hint="TODO; 
+<BytecodeCompiler
+  id="1"
+  hint="TODO; 
 put something on the stack.
 return it"
-preappend={[
-    0x00, 0x61, 0x73, 0x6d,
-    0x01, 0x00, 0x00, 0x00,
-    0x01, 0x05, 0x01,
-    0x60, 0x00, 0x01, 0x7f,
-    0x03, 0x02, 0x01, 0x00,
-    0x07, 0x08, 0x01, 0x04, 0x6d, 0x61, 0x69, 0x6e, 0x00, 0x00,
-]}
-kind="simple_function"/>
+  preappend={[
+    0x00, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00, 0x01, 0x05, 0x01, 0x60,
+    0x00, 0x01, 0x7f, 0x03, 0x02, 0x01, 0x00, 0x07, 0x08, 0x01, 0x04, 0x6d,
+    0x61, 0x69, 0x6e, 0x00, 0x00,
+  ]}
+  kind="simple_function"
+/>

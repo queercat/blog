@@ -1,76 +1,79 @@
-@import url('https://fonts.googleapis.com/css2?family=Lilita+One&family=Oswald:wght@300&family=Roboto+Mono&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lilita+One&family=Oswald:wght@300&family=Roboto+Mono&display=swap");
 
 * {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 
-	font-family: 'Roboto', Monospace;
+  font-family: "Roboto", Monospace;
 
-	--h1-size: 2.8rem;
-	--p-size: 1.4rem;
+  --h1-size: 2.8rem;
+  --p-size: 1.4rem;
 }
 
-html, body, .app, #__next {
-	height: 100%;
+html,
+body,
+.app,
+#__next {
+  height: 100%;
 }
 
 h1 {
-	font-size: var(--h1-size);
-	color: #ebe5db;
+  font-size: var(--h1-size);
+  color: #ebe5db;
 }
 
 a {
-	text-decoration: none;
-	color: #b4a5ff;
+  text-decoration: none;
+  color: #b4a5ff;
 }
 
 p {
-	font-size: var(--p-size);
+  font-size: var(--p-size);
 }
 
 a:hover {
-	text-decoration: underline;
+  text-decoration: underline;
 }
 
 body {
-	background-color: #191919;
-	color: #e4d3b3;
+  background-color: #191919;
+  color: #e4d3b3;
 }
 
 .uhoh {
-	display: flex;
-	height: 80vh;
-	justify-content: center;
-	align-items: center;
+  display: flex;
+  height: 80vh;
+  justify-content: center;
+  align-items: center;
 }
 
 button {
-	font: inherit;
-	border: 1px black solid;
-	border-radius: 2px;
-	padding: .5vh;
-	cursor: pointer;
+  font: inherit;
+  border: 1px black solid;
+  border-radius: 2px;
+  padding: 0.5vh;
+  cursor: pointer;
 }
 
 button:active {
-	background: #e5e5e5;
-  	-webkit-box-shadow: inset 0px 0px 5px #c1c1c1;
-     -moz-box-shadow: inset 0px 0px 5px #c1c1c1;
-          box-shadow: inset 0px 0px 5px #c1c1c1;
-   outline: none;
+  background: #e5e5e5;
+  -webkit-box-shadow: inset 0px 0px 5px #c1c1c1;
+  -moz-box-shadow: inset 0px 0px 5px #c1c1c1;
+  box-shadow: inset 0px 0px 5px #c1c1c1;
+  outline: none;
 }
 
 textarea {
-    background: black;
-    border: none;
-    border-radius: 5px;
-    resize: none;
-    color: white;
-    padding: 2vh;
+  background: black;
+  border: none;
+  border-radius: 5px;
+  resize: none;
+  color: white;
+  padding: 2vh;
 }
 
 @media screen and (max-width: 400px) {
-	* {
-		--h1-size: 2.4rem;
-	}
+  * {
+    --h1-size: 2.4rem;
+  }
 }

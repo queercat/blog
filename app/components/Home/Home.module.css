@@ -1,79 +1,79 @@
 .home {
-    display: flex;
-    flex-direction: column;
-    gap: 2vh;
-    width: 100%;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  width: 100%;
+  align-items: center;
 }
 
 .blurbs {
-    width: 80%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4vh;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4vh;
 }
 
 .name {
-    color: pink;
+  color: pink;
 }
 
 .pfp {
-    will-change: transform;
-    
-    box-shadow: 2px black;
-    display: flex;
-    justify-content: center;
-    margin: 2vh;
+  will-change: transform;
+
+  box-shadow: 2px black;
+  display: flex;
+  justify-content: center;
+  margin: 2vh;
 }
 
 .pfp img {
-    will-change: transform;
+  will-change: transform;
 
-    border-radius: 50%;
-    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
-    transition: transform 300ms;
-    border: 5px solid rgb(212, 143, 188);
+  border-radius: 50%;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+  transition: transform 300ms;
+  border: 5px solid rgb(212, 143, 188);
 
-    width: 200px;
-    height: 200px;
+  width: 200px;
+  height: 200px;
 }
 
 .pfp img:hover {
-    transform: rotate(10deg);
+  transform: rotate(10deg);
 }
 
 .blurb {
-    display: flex;
-    flex-direction: column;
-    width: 90%;
-    gap: .5vh;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  gap: 0.5vh;
 }
 
 .blurb {
-    will-change: transform;
+  will-change: transform;
 
-    background-color: #2a272de2;
-    padding: 1vw;
-    border-radius: 7px;
-    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
-    transition: transform 200ms;
+  background-color: #2a272de2;
+  padding: 1vw;
+  border-radius: 7px;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+  transition: transform 200ms;
 }
 
 .blurb:hover {
-    transform: scale(1.01);
+  transform: scale(1.01);
 }
 
 @media screen and (max-width: 800px) {
-    .blurb {
-        width: 100%;
-    }
+  .blurb {
+    width: 100%;
+  }
 
-    .home {
-        align-items: center;
-    }
+  .home {
+    align-items: center;
+  }
 
-    .blurb {
-        padding: 2vw;
-    }
+  .blurb {
+    padding: 2vw;
+  }
 }

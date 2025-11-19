@@ -1,27 +1,27 @@
 .aside {
-    padding: 1vw;
-    display: flex;
-    background-color: #596968;
-    gap: 2vw;
-    margin-bottom: 1vw;
-    margin-top: 1vw;
-    align-items: center;
+  padding: 1vw;
+  display: flex;
+  background-color: #596968;
+  gap: 2vw;
+  margin-bottom: 1vw;
+  margin-top: 1vw;
+  align-items: center;
 }
 
 .aside_content p {
-    --aside-p: 1.3rem;
-    font-size: var(--aside-p);
+  --aside-p: 1.3rem;
+  font-size: var(--aside-p);
 
-    color: white;
+  color: white;
 }
 
 @media screen and (max-width: 800px) {
-    .aside_content p {
-        --aside-p: .8rem;
-    }
+  .aside_content p {
+    --aside-p: 0.8rem;
+  }
 
-    .aside_image img{
-        max-width: 100px;
-        height: auto;
-    }
+  .aside_image img {
+    max-width: 100px;
+    height: auto;
+  }
 }

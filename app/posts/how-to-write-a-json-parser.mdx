@@ -6,15 +6,12 @@ description: "how to write a json parser"
 ---
 
 # brief overview of json
-json is a rather popular file format, used for an things as simple as configs to literal databases.  
+
+json is a rather popular file format, used for an things as simple as configs to literal databases.
 
 here is some json file:
 
-<code>
-```code
-$ cat belongings.json
-```
-</code>
+<code>```code $ cat belongings.json ```</code>
 
 <code>
 ```json
@@ -33,7 +30,7 @@ also how its name reflects rather accurately what it is: [javascript object nota
 now the javascript is not so relevant anymore but it's catchy.
 
 parsing
-i'm going to be annoyingly verbose for a second. there are a few different kinds of parsing even within the field of computer science. this is a parser that takes syntax of a [formal grammer](https://en.wikipedia.org/wiki/Formal_grammar) and turns it into tokens to be built into some kind of data structure. 
+i'm going to be annoyingly verbose for a second. there are a few different kinds of parsing even within the field of computer science. this is a parser that takes syntax of a [formal grammer](https://en.wikipedia.org/wiki/Formal_grammar) and turns it into tokens to be built into some kind of data structure.
 
 the result of a parser can vary but is typically a structure known as a [parse tree](https://en.wikipedia.org/wiki/Parse_tree) or an [abstract syntax tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree).
 
@@ -42,6 +39,7 @@ parsing is a frankly rather complex subject, i encourage you to read about it to
 you can find an amazing overview [here.](https://jeffreykegler.github.io/personal/timeline_v3) written by a Jeffrey Kegler who invented the marpa parsing algorithm himself.
 
 # things we need to know to actually write a json parser
+
 the approach i will be describing is a [recursive descent parser](https://en.wikipedia.org/wiki/Recursive_descent_parser). if you wanted you could definitely utilize a [scanerless approach.](https://en.wikipedia.org/wiki/Scannerless_parsing)
 
 the first thing we need to understand is the specifications and formal grammer of the language. we do this by looking at the somewhat scary [rfc8259.](https://www.rfc-editor.org/rfc/rfc8259)
@@ -52,12 +50,12 @@ and after skimming through we see the beautiful:
 ```
 JSON Grammar
 
-A JSON text is a sequence of tokens.  The set of tokens includes six
+A JSON text is a sequence of tokens. The set of tokens includes six
 structural characters, strings, numbers, and three literal names.
 
-A JSON text is a serialized value.  Note that certain previous
+A JSON text is a serialized value. Note that certain previous
 specifications of JSON constrained a JSON text to be an object or an
-array.  Implementations that generate only objects or arrays where a
+array. Implementations that generate only objects or arrays where a
 JSON text is called for will be interoperable in the sense that all
 implementations will accept these as conforming JSON texts.
 
@@ -76,6 +74,7 @@ These are the six structural characters:
     name-separator  = ws %x3A ws  ; : colon
 
     value-separator = ws %x2C ws  ; , comma
+
 ```
 </code>
 
@@ -88,17 +87,18 @@ if we check out the valid values we see:
 
 <code>
 ```
+
 3.  Values
 
-   A JSON value MUST be an object, array, number, or string, or one of
-   the following three literal names:
+A JSON value MUST be an object, array, number, or string, or one of
+the following three literal names:
 
       false
       null
       true
 
-   The literal names MUST be lowercase.  No other literal names are
-   allowed.
+The literal names MUST be lowercase. No other literal names are
+allowed.
 
       value = false / null / true / object / array / number / string
 
@@ -107,6 +107,7 @@ if we check out the valid values we see:
       null  = %x6e.75.6c.6c      ; null
 
       true  = %x74.72.75.65      ; true
+
 ```
 </code>
 
@@ -114,8 +115,10 @@ from that we can see that the valid values for some json value are as given:
 
 <code>
 ```
+
 [false, null, true, object, array, number, string]
-```
+
+````
 </code>
 
 i'll just throw a few example mini jsons to give you an idea:
@@ -129,7 +132,7 @@ i'll just throw a few example mini jsons to give you an idea:
 
 [0, 1, 2, 3] # hooray array!
 
-{"key": 0} # an object containing a key and a value. 
+{"key": 0} # an object containing a key and a value.
 # note that a key must always be a string.
 
 # now it's important to remember objects and arrays can hold all values so:
@@ -146,13 +149,15 @@ i'll just throw a few example mini jsons to give you an idea:
 # this is entirely valid.
 # the relationships in this json could be expressed as
 # object -> array [string, string, object -> array]
-```
+````
+
 </code>
 
 if you want to get technical with it you should learn [EBNF](https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form)
 which is a way of writing out language grammars. it is pretty useful in removing ambiguity for what things can actually be.
 
 ## making this useful
+
 parsing is typically done through a set of steps. you consume the input source through a process
 known as lexing or tokenizing to create tokens, those tokens get parsed into some higher level structure
 typically an AST or Parse Tree and then you do something cool with that.
@@ -160,6 +165,7 @@ typically an AST or Parse Tree and then you do something cool with that.
 for our purposes the AST is all we want in whatever language we're using.
 
 we want to convert this:
+
 <code>
 ```json
 {
@@ -178,6 +184,7 @@ into something which we can manipulate like:
 obj = parse(above_json)
 
 num_of_crayons = obj["crayons"]
+
 ```
 </code>
 and so we begin our little journey. ✨
@@ -185,3 +192,4 @@ and so we begin our little journey. ✨
 [the json lexer.](/blog/posts/how-to-write-a-json-lexer)
 
 [the json parser.](/blog/posts/how-to-actually-write-a-json-parser)
+```
