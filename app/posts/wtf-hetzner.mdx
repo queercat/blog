@@ -164,3 +164,39 @@ great, now lets' try logging back in.
 root@157.180.76.96: Permission denied (publickey).
 ```
 oh, cool, so that's how  my server got pwned.
+
+# tl;dr + key takeways
+hetzner includes a weird cloud-init that enables SSH password authentication. hetzner does not tell you they do this, and even allow you to have an empty cloud-init configuration, which is the default.
+
+sshd_configs apply the configuration "bottom up", the first thing set is the value it'll be evaluated to at runtime, meaning that us disabling the password authentication gets overriden by the Include.
+whatever password i set was obtained and thus my machine pwned.
+
+<Aside mood="rat">
+when i did this for my mastodon server, the first thing i did was add my ssh keys to the machine. when i was able to login after disabling ssh i wasn't surprised, now i'll be checking on every machine i provision in the future.
+</Aside>
+
+## lessons learned:
+
+provide your ssh pubkeys up front to your cloud provider so they don't apply weirdo configs and send your password over email.
+
+absolutely make sure all account passwords are secure and securely stored.
+
+disable ssh root access entirely, leave it to the serial console if you can help it.
+
+sandbox things into users.
+
+something something fail2ban.
+
+make sure you **actually** disable password authentication for SSHD.
+
+# remaining questions?
+why does Hetzner do it this way? is this an Ubuntu thing? this behavior doesn't happen notably if you provide your SSH keys up front (my new preference after this fiasco). 
+
+# suggested fix?
+add some kind of warning or comment via 
+<code>
+```sh
+sed -i -E 's/#?PasswordAuthentication yes/# disable this in the cloud-init thingy/ /etc/ssh/sshd_config'
+```
+</code>
+into the sshd_config to let others know they can't just disable it where they expect.
