@@ -12,6 +12,7 @@ import BytecodeCompiler from "../../components/Posts/BytecodeCompiler/BytecodeCo
 import Aside from "../../components/Aside/Aside";
 import LineChart from "../../components/Posts/Charts/LineChart";
 import ReducerVisualizer from "../../components/Posts/ReducerVisualizer/ReducerVisualizer";
+import Image from "next/image";
 
 import { NextSeo } from "next-seo";
 
@@ -22,6 +23,7 @@ export default function Posts({ source }) {
     Aside,
     LineChart,
     ReducerVisualizer,
+    Image,
   };
 
   /* https://dev.to/michaelburrows/calculate-the-estimated-reading-time-of-an-article-using-javascript-2k9l */

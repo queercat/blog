@@ -1,0 +1,98 @@
+---
+title: hexagon shader
+date: 07-13-2025
+blurb: "mmmm hexagon"
+description: "so basically,,, triangle"
+---
+
+i came up with a (very bad) hexagon shader. it decomposes the hexagon into 6 triangles, and then uses barycentric weights to determine if a point is inside a valid triangle, it sums all of these and should be about less than 1 + some epsilon.
+
+<img src="/blog/imgs/hexagon-shader.gif" alt="spinning hexagon with slightly buggy rendering" />
+
+```glsl
+#version 330
+
+uniform vec2 uResolution;
+uniform float uTime;
+
+float circle(vec2 pos, float r) {
+  return length(pos) - r;
+}
+
+float degrees_to_radians(float degrees) {
+  return (2 * 3.14) * degrees / 360;
+}
+
+float area_of_triangle(vec2 a, vec2 b, vec2 c) {
+  return abs((a.x*(b.y - c.y) + b.x*(c.y - a.y) + c.x*(a.y - b.y)) * 0.5);
+}
+
+float triangle(vec2 a, vec2 b, vec2 c, vec2 position) {
+  float area = area_of_triangle(a, b, c);
+  
+  float aa = area_of_triangle(a, b, position);
+  float ba = area_of_triangle(b, position, c);
+  float ca = area_of_triangle(a, position, c);
+
+  float ab = aa / area;
+  float bb = ba / area;
+  float cb = ca / area;
+  
+  float total = ab + bb + cb;
+  
+  return total <= 1.00199 ? 1 : 0;
+}
+
+vec2 rotate(vec2 point, float deg) {
+  float x = point.x * cos(degrees_to_radians(deg)) - point.y * sin(degrees_to_radians(deg));
+  float y = point.x * sin(degrees_to_radians(deg)) + point.y * cos(degrees_to_radians(deg));
+  
+  return vec2(x, y);
+}
+
+float hexagon(vec2 pos, float r) {
+  pos = rotate(pos, uTime * 100);
+  
+  vec2 a = vec2(0, 0);
+  vec2 b = vec2(0, r);
+  vec2 c = vec2(cos(degrees_to_radians(30)) * r,
+  sin(degrees_to_radians(30)) * r);
+  
+  float d = 0; 
+  
+  for (int i = 0; i < 6; ++i) {
+          d += triangle(rotate(a, 60 * i), rotate(b, 60 * i), rotate(c, 60 * i), pos);
+  }
+
+  return d;
+}
+
+
+out vec4 outColor;
+
+void main()
+{
+  // -- CURRENT --
+  // top-left (0, 1)
+  // top-right (1, 1)
+  // bottom-left (0, 0)
+  // bottom-right (1, 0)
+  // middle: (.5, .5)
+
+
+  // -- DESIRED -- 
+  // top-left (-1, 1)
+  // top-right (1, 1)
+  // bottom-left (-1, -1)
+  // bottom-right (1, -1)
+  // middle: (0, 0)
+  
+  vec2 uv = gl_FragCoord.xy / uResolution;
+  uv = uv * 2 - 1;
+  uv.x *= uResolution.x / uResolution.y;
+
+  vec4 color = vec4(hexagon(uv, .3));
+
+  outColor = color;
+}
+
