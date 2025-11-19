@@ -38,7 +38,9 @@ export default function Blog({ postObjects }) {
 }
 
 export async function getStaticProps() {
-  const postNames = fs.readdirSync(path.join("posts"));
+  const postNames = fs
+    .readdirSync(path.join("posts"))
+    .filter((p) => !p.startsWith("_"));
 
   let postObjects = null;
 

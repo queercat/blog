@@ -87,9 +87,12 @@ export default function Posts({ source }) {
 }
 
 export async function getStaticPaths() {
-  const paths = fs.readdirSync(path.join("posts")).map((name) => ({
-    params: { post: name.split(".")[0] },
-  }));
+  const paths = fs
+    .readdirSync(path.join("posts"))
+    .filter((p) => !p.startsWith("_"))
+    .map((name) => ({
+      params: { post: name.split(".")[0] },
+    }));
 
   return {
     paths,
@@ -101,6 +104,8 @@ export async function getStaticProps({ params }) {
   const location = path.join("posts", params.post + ".mdx");
   const data = fs.readFileSync(location, "utf-8");
   const ser = await serialize(data, { parseFrontmatter: true });
+
+  if (params.post.startsWith("_")) { return }
 
   return {
     props: {
