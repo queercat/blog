@@ -8,7 +8,7 @@ export default function Resume() {
       <NextSeo title="may resume" description="may tusek resume" />
       <iframe
         className={styles.resume}
-        src="/blog/pdfs/resume_may_tusek_2023.pdf"
+        src="/blog/pdfs/resume_may_tusek_2025.pdf"
       />
     </div>
   );
