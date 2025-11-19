@@ -19,7 +19,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  turbopack: {}
+  turbopack: {},
+  distDir: "out",
+  output: "export"
 };
 
 module.exports = withMDX(nextConfig);
