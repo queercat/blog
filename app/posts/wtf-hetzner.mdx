@@ -193,6 +193,12 @@ make sure you **actually** disable password authentication for SSHD.
 
 why does Hetzner do it this way? is this an Ubuntu thing? this behavior doesn't happen notably if you provide your SSH keys up front (my new preference after this fiasco). 
 
+hetzner already edits the sshd_config as `the ubuntu ssh package has #PermitRootLogin prohibit-password as the default config`
+(source, my friend octy <a href="https://octyl.net/">https://octyl.net/</a>) so this rules out not wanting to modify the default config.
+
+in fact sshd by DEFAULT allows for password based ssh access **without** specifying PasswordAuthentication yes, so there's no apparent reason for them to even add that cloud-init configuration in the first place!
+
+
 # suggested fix?
 add some kind of warning or comment via 
 <code>
