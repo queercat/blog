@@ -77,41 +77,19 @@ Welcome to Ubuntu 24.04.3 LTS (GNU/Linux 6.8.0-71-generic x86_64)
 ```
 </code>
 
+
 alright great, we're in the machine. we've changed the password, and now we want to secure our VPS so that only we can access it. (there are other things we should do, but this is the most important one in terms of urgency.)
 
-we just need to only allow pub/priv key authentication for sshd.
+we just need to only allow pub/priv key authentication for sshd. to do this we just need to edit the /etc/ssh/sshd_config. <a href="https://stackoverflow.com/questions/20898384/disable-password-authentication-for-ssh">https://stackoverflow.com/questions/20898384/disable-password-authentication-for-ssh</a>
 
-```sh
-root@hetzner-example:~# cat /etc/ssh/sshd_config
-
-Include /etc/ssh/sshd_config.d/*.conf
-
-PermitRootLogin yes
-KbdInteractiveAuthentication no
-
-# To disable tunneled clear text passwords, change to no here!
-#PasswordAuthentication yes
-#PermitEmptyPasswords no
-
-UsePAM yes
-X11Forwarding yes
-PrintMotd no
-AcceptEnv LANG LC_*
-Subsystem       sftp    /usr/lib/openssh/sftp-server
-```
-
-<Aside mood="rat">
-for brevity i have only included things in the file that was enabled or were instrumental to my explanation
-</Aside>
+in that file we'll find this snippet.
 
 ```
 # To disable tunneled clear text passwords, change to no here!
 #PasswordAuthentication yes
-#PermitEmptyPasswords no
 ```
 
-great! all we should have to do is uncomment this text and set it to no to disable password based authentication.
-
+alright cool, let's just uncomment that (back of mind: huh, weird that it's commented out, does it allow passwords by default? whatever.), and set it to no like it says.
 
 ```diff
 # To disable tunneled clear text passwords, change to no here!
@@ -134,7 +112,7 @@ Connection to 157.180.76.96 closed.
 root@157.180.76.96's password:
 ```
 
-huh, that's weird, i swear we just disabled password authentication, maybe it won't work if we try it?
+huh, that's weird, i swear we just disabled password authentication, maybe it won't work if we submit our new password?
 
 ```
 root@157.180.76.96's password: ****
