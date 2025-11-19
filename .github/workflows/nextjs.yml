@@ -25,11 +25,11 @@ concurrency:
 
 jobs:
   # Build job
-  defaults:
-    run:
-      working-directory: ./blog/app
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./blog/app
     steps:
       - name: Checkout
         uses: actions/checkout@v4
