@@ -190,13 +190,21 @@ something something fail2ban.
 make sure you **actually** disable password authentication for SSHD.
 
 # remaining questions?
+
 why does Hetzner do it this way? is this an Ubuntu thing? this behavior doesn't happen notably if you provide your SSH keys up front (my new preference after this fiasco). 
+
+# current theory: 
+
+hetzner doesn't want to modify the sshd_config, the Include is probably a part of the default sshd_config, and they just add that cloud-init file to enable password access for ssh.
+
+the reason this behavior doesn't happen when you provide your pubkeys up-front is they just don't populate that cloud-init file.
+
 
 # suggested fix?
 add some kind of warning or comment via 
 <code>
 ```sh
-sed -i -E 's/#?PasswordAuthentication yes/# disable this in the cloud-init thingy/ /etc/ssh/sshd_config'
+sed -i -E 's/#?PasswordAuthentication yes/# disable this in the cloud-init thingy/ /etc/ssh/sshd_config
 ```
 </code>
 into the sshd_config to let others know they can't just disable it where they expect.
