@@ -8,6 +8,11 @@
   flex: 1;
 }
 
+.blog_post img {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
 .blog_header {
   display: flex;
   flex-direction: column;

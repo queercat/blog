@@ -1,0 +1,188 @@
+---
+title: wtf hetzner
+date: 11-19-2025
+blurb: what's this cloud-init thingy?
+description: how my VPS got pwned
+---
+
+a few weeks after provisioning a VPS from Hetzner, which had a nightmarish verification process to even use their platform mind you, i started getting pings
+from automated abuse detection.
+
+<img src="/imgs/Abuse0.png"/>
+
+i ignored this at first as "maybe my service was just doing some wonky networking", it was a mastadon instance so that didn't seem too far fetched to me.
+
+
+<img src="/imgs/Abuse1.png"/>
+
+i don't think mastadon port scans random IP ranges, so i shutdown my VPS from the cloud console ASAP and tried to figure out what went wrong.
+
+<Aside mood="default">
+ it was a personal instance with no data i cared about leaking / losing, but it could've been much worse.
+</Aside>
+
+the provisioning process for a Hetzner box is pretty straight forward, if you've used a cloud console it has what you'd expect.
+
+<img src="/imgs/hetzner_example.png"/>
+
+you can select an OS, choose from some preconfigured software, and then you can add your SSH keys!
+
+
+<img src="/imgs/hetzner_ssh.png"/>
+
+i personally prefer to add my SSH keys via the provided serial console that most cloud providers give you, it also sends you
+a root password in the mail that you have to change.
+
+<img src="/imgs/hetzner_cloud_init.png"/>
+
+there's also this box to **specifically add a cloud-init configuration**, i'm going to **leave this blank since i don't want a cloud-init configuration**.
+
+that sums up our configuration, a basic Ubuntu machine, no ssh keys selected, and **no cloud-init config**.
+
+<img src="/imgs/hetzner_buy.png"/>
+
+and this is why i use(d) Hetzner, dirt cheap!
+
+with that done we can SSH into the machine with the emailed admin credentials.
+
+<img src="/imgs/hetzner_email.png"/>
+
+<code>
+```sh
+> ssh root@157.180.76.96
+```
+```
+The authenticity of host '157.180.76.96 (157.180.76.96)' can't be established.
+ED25519 key fingerprint is: SHA256:WxwzGh584qBajyNC2vFcQF2ToKzlcpK0tSPEZbS78iM
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])?y
+```
+```sh
+root@157.180.76.96's password: *********
+```
+```
+You are required to change your password immediately (administrator enforced).
+Welcome to Ubuntu 24.04.3 LTS (GNU/Linux 6.8.0-71-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Wed Nov 19 10:09:04 PM UTC 2025
+
+  System load:  0.08              Processes:             120
+  Usage of /:   3.0% of 37.23GB   Users logged in:       0
+  Memory usage: 5%                IPv4 address for eth0: 157.180.76.96
+  Swap usage:   0%                IPv6 address for eth0: 2a01:4f9:c012:d8db::1
+```
+</code>
+
+alright great, we're in the machine. we've changed the password, and now we want to secure our VPS so that only we can access it. (there are other things we should do, but this is the most important one in terms of urgency.)
+
+we just need to only allow pub/priv key authentication for sshd.
+
+```sh
+root@hetzner-example:~# cat /etc/ssh/sshd_config
+
+Include /etc/ssh/sshd_config.d/*.conf
+
+PermitRootLogin yes
+KbdInteractiveAuthentication no
+
+# To disable tunneled clear text passwords, change to no here!
+#PasswordAuthentication yes
+#PermitEmptyPasswords no
+
+UsePAM yes
+X11Forwarding yes
+PrintMotd no
+AcceptEnv LANG LC_*
+Subsystem       sftp    /usr/lib/openssh/sftp-server
+```
+
+<Aside mood="rat">
+for brevity i have only included things in the file that was enabled or were instrumental to my explanation
+</Aside>
+
+```
+# To disable tunneled clear text passwords, change to no here!
+#PasswordAuthentication yes
+#PermitEmptyPasswords no
+```
+
+great! all we should have to do is uncomment this text and set it to no to disable password based authentication.
+
+
+```diff
+# To disable tunneled clear text passwords, change to no here!
+- #PasswordAuthentication yes
++ PasswordAuthentication no
+```
+
+and to enable our changes, just restart the ssh service.
+
+```ssh
+sudo systemctl restart ssh
+```
+
+now let's exit and ssh, we should be "locked out".
+
+```sh
+logout
+Connection to 157.180.76.96 closed.
+➜  moon ssh root@157.180.76.96
+root@157.180.76.96's password:
+```
+
+huh, that's weird, i swear we just disabled password authentication, maybe it won't work if we try it?
+
+```
+root@157.180.76.96's password: ****
+Welcome to Ubuntu 24.04.3 LTS (GNU/Linux 6.8.0-71-generic x86_64)
+```
+
+wtf, what's going on here? let's look at that sshd config one more time.
+
+```
+root@hetzner-example:~# cat /etc/ssh/sshd_config
+
+# this line is important
+Include /etc/ssh/sshd_config.d/*.conf
+
+# To disable tunneled clear text passwords, change to no here!
+PasswordAuthentication no
+#PermitEmptyPasswords no
+```
+
+huh, i wonder what that Include sshd_config.d thingy is doing? what's in there?
+
+```sh
+root@hetzner-example:~# ls /etc/ssh/sshd_config.d
+50-cloud-init.conf
+```
+
+oh it's just a cloud-init confi-, wait i didn't use cloud-init did i? wtf is that?
+
+```sh
+root@hetzner-example:~# cat /etc/ssh/sshd_config.d/50-cloud-init.conf
+PasswordAuthentication yes
+```
+
+WTF? is it a SINGLE file, whose sole purpose is to set PasswordAuthentication to yes, which appears to override me setting it to no? surely not.
+
+to test i guess, lets delete it and reload sshd to see what happens. maybe i did something wrong?
+
+```sh
+root@hetzner-example:~# rm /etc/ssh/sshd_config.d/50-cloud-init.conf
+root@hetzner-example:~#
+root@hetzner-example:~# sudo systemctl restart ssh
+root@hetzner-example:~# exit
+logout
+Connection to 157.180.76.96 closed.
+```
+great, now lets' try logging back in.
+```sh
+➜ moon ssh root@157.180.76.96
+root@157.180.76.96: Permission denied (publickey).
+```
+oh, cool, so that's how  my server got pwned.
