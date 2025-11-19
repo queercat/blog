@@ -25,6 +25,9 @@ concurrency:
 
 jobs:
   # Build job
+  defaults:
+    run:
+      working-directory: ./blog/app
   build:
     runs-on: ubuntu-latest
     steps:
