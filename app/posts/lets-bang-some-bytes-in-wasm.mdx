@@ -15,8 +15,11 @@ i want to make you agree with me through my powers of unadulterated rhetoric. an
 the world's simplest web assembly binary can be expressed as such:
 
 <code>
-  ``` # you can copy and paste this! # 0x00 0x61 0x73 0x6d # magic 0 A S M #
-  0x01 0x00 0x00 0x00 # version 1 0 0 0 # ```
+  ``` 
+  # you can copy and paste this!
+  0x00 0x61 0x73 0x6d # magic 0 A S M
+  0x01 0x00 0x00 0x00 # version 1 0 0 0
+  ```
 </code>
 
 how would you like to write some raw bytecode? "yes!" i hear you cry.
@@ -56,7 +59,7 @@ how about we (you) write some wasm to return the number 42.
 so *technically* we need to actually write out a function declaration, and an export name,
 along with the parameters required. for now i will just auto append that to the bytecode.
 
-i will also append the magic numbers for you cutie.✨
+i will also append the magic numbers for you.✨
 
 oh one more thing 👉👈 you have to write 0x0b to let wasm know you are done with your function.
 

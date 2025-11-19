@@ -19,7 +19,7 @@ export default function BytecodeCompiler(props) {
     const bytess = comp
       .replace(/,|\n|\r|\t|#.*#/g, "")
       .split(" ")
-      .filter((n) => n);
+      .filter(n => !!n);
 
     let bytes = new Uint8Array(bytess.length + props.preappend.length);
     let _bytes = "";

@@ -5,6 +5,7 @@
 
   border-top: 7px dashed white;
   padding-top: 1vh;
+  flex: 1;
 }
 
 .blog_header {
