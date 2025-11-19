@@ -20,7 +20,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className={styles.blurb}>
+        {/* <div className={styles.blurb}>
           <h1 className={styles.blurb_header}>#skills</h1>
           <p>- languages: python, javascript, c++, c, rust, go, c#.</p>
           <p>
@@ -50,7 +50,7 @@ export default function Home() {
             : my <a href="https://queercat.github.io">portfolio</a> written with
             React and Three.js.
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );

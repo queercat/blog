@@ -21,9 +21,3 @@
     font-size: 0.8rem;
   }
 }
-
-@media screen and (max-width: 800px) {
-  .footer p {
-    font-size: 0.5rem;
-  }
-}

@@ -7,7 +7,7 @@
 
 .header_items {
   display: flex;
-  gap: 2vh;
+  gap: 2rem;
 }
 
 .header_item {
@@ -15,8 +15,9 @@
 }
 
 .header_url {
-  color: #fe8b91;
-  font-weight: bold;
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 800;
 }
 
 .header_seperator {
@@ -24,12 +25,12 @@
 }
 
 @media screen and (max-width: 700px) {
-  .header_items {
-    gap: 0;
-  }
-
   .header h1 {
     font-size: 2rem;
+  }
+
+  .header_url {
+    font-size: 1.5rem;
   }
 }
 
