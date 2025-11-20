@@ -23,14 +23,6 @@ export default function Header() {
 
         <div className={styles.header_item}>
           <h1>
-            <Link href="/resume" className={styles.header_url}>
-              resume
-            </Link>
-          </h1>
-        </div>
-
-        <div className={styles.header_item}>
-          <h1>
             <Link href="/tools" className={styles.header_url}>
               tools
             </Link>
