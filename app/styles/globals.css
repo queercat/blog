@@ -19,6 +19,11 @@ body,
   flex-direction: column;
 }
 
+img {
+  width: 100%;
+  height: auto;
+}
+
 h1 {
   font-size: var(--h1-size);
   color: #ebe5db;
