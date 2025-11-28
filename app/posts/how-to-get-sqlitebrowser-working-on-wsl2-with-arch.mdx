@@ -1,0 +1,29 @@
+---
+title: getting sqlite browser working on WSL2 + Arch
+date: 11-28-2025
+blurb: "i briefly broke my arch install by doing this"
+description: "this is how you do it yes, why do i even have a separate description and blurb section"
+---
+
+# tl;dr
+
+```sh
+sudo pacman -S icu ttf-dejavu sqlitebrowser
+```
+
+it might work with other font packages but installing without ttf-dejau causes it to look like this (invisible text):
+<img src="/imgs/browser_broken.png" />
+
+# how to fix pacman if it breaks because of libicuuc
+
+```sh
+pacman: error while loading shared libraries: libicuuc.so.76: cannot open shared object file: No such file or directory
+```
+
+you just need to [follow these instructions](https://wiki.archlinux.org/title/Pacman#Using_pacman-static) which will lead you to running
+
+```sh
+curl -L -o pacman-static https://pkgbuild.com/~morganamilo/pacman-static/x86_64/bin/pacman-static
+chmod +x pacman-static
+sudo ./pacman-static -Syu pacman
+```
